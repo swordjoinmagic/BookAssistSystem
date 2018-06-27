@@ -6,13 +6,15 @@ import com.mongodb.MongoClient;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
-import com.sun.org.apache.xml.internal.resolver.helpers.PublicId;
 import java.util.*;
+
 public class MongoDBCommentDataBase {
 	private static final MongoDBCommentDataBase dao = new MongoDBCommentDataBase();
 	
 	private MongoClient mongoClient;
 	private MongoDatabase database;
+	// 默认集合
+	private MongoCollection<Document>defaultCollection;
 	
 	public static MongoDBCommentDataBase getDao(){
 		return dao;
@@ -24,6 +26,8 @@ public class MongoDBCommentDataBase {
 		
 		// 连接到mongodb数据库
 		database = mongoClient.getDatabase("pythonLessonExamData");
+		
+		defaultCollection = database.getCollection("BookData");
 	}
 	
 	public MongoCollection<Document> getCollection(String name) {
@@ -35,4 +39,11 @@ public class MongoDBCommentDataBase {
 		return collection.find(findData);
 	}
 	
+	public FindIterable<Document>findWithDefaultCollection(Document findData){
+		return defaultCollection.find(findData);
+	}
+	
+	public long getCount(Document findData) {
+		return defaultCollection.count(findData);
+	}
 }
