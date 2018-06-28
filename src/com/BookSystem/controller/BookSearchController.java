@@ -4,7 +4,6 @@ import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.tomcat.util.security.Escape;
 import org.bson.Document;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.Mapping;
@@ -17,8 +16,6 @@ import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 import com.BookSystem.DataBaseManagement.MongoDBCommentDataBase;
 import com.BookSystem.DataBaseManagement.MongoDBUtil;
 import com.mongodb.client.FindIterable;
-import com.sun.swing.internal.plaf.basic.resources.basic;
-import com.sun.xml.internal.ws.api.ha.StickyFeature;
 
 @Controller
 @RequestMapping
@@ -98,9 +95,10 @@ public class BookSearchController {
 	@RequestMapping(path="/search",method=RequestMethod.GET)
 	public ModelAndView search(
 			@RequestParam(name="page",required=false,defaultValue="0") int page,
-			@RequestParam(name="sortType",required=false,defaultValue="1") int sortType,
+			@RequestParam(name="sortType",required=false,defaultValue="0") int sortType,
 			@RequestParam(name="searchType",required=false,defaultValue="") String searchType,
-			@RequestParam(name="queryContent",required=false,defaultValue="") String queryContent) {
+			@RequestParam(name="queryContent",required=false,defaultValue="") String queryContent,
+			@RequestParam(name="extraConditionYear",required=false,defaultValue="") String extraConditionYear) {
 		
 		// 构造视图-模型
 		ModelAndView view = new ModelAndView();
@@ -124,44 +122,46 @@ public class BookSearchController {
 			case "CatalogKey":
 				// 目录
 				findData = Document.parse(String.format(jsonCatalogKey, queryContent));
-				result = ado.findWithDefaultCollection(findData);
 				break;
 			case "BookNameKey":
 				// 书名
 				findData = Document.parse(String.format(jsonBookNameKey, queryContent));
-				result = ado.findWithDefaultCollection(findData);
 				break;
 			case "BookAuthorKey":
 				// 作者
 				findData = Document.parse(String.format(jsonBookAuthorKey, queryContent));
-				result = ado.findWithDefaultCollection(findData);
 				break;
 			case "BookPublisherKey":
 				// 出版社
 				findData = Document.parse(String.format(jsonBookPublisherKey, queryContent));
-				result = ado.findWithDefaultCollection(findData);
 				break;
 			case "ISBNKey":
 				// ISBN码
 				findData = Document.parse(String.format(jsonISBNKey, queryContent));
-				result = ado.findWithDefaultCollection(findData);
 				break;
 			case "IndexKey":
 				// 索书号
 				findData = Document.parse(String.format(jsonIndexKey, queryContent));
-				result = ado.findWithDefaultCollection(findData);
 				break;
 			case "SystemNumberKey":
 				// 系统号
 				findData = Document.parse(String.format(jsonSystemNumberKey, queryContent));
-				result = ado.findWithDefaultCollection(findData);
 				break;
 			default:
 				// 所有字段（除目录）
 				findData = Document.parse(String.format(jsonOrAllKeysButNotCatalog, queryContent));
-				result = ado.findWithDefaultCollection(findData);
 				break;
 		}
+		
+		// 增加额外条件
+		try {
+			if(!extraConditionYear.equals("")) {
+				findData.append("publishYear", Integer.parseInt(extraConditionYear));
+			}
+		}catch(Exception e) {}
+				
+		result = ado.findWithDefaultCollection(findData);
+		
 		
 		// 根据排序类型来对结果进行排序
 		switch(sortType) {
