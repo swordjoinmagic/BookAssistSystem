@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.BookSystem.MybatisMapper.MybatisCommentMapper">
+	<!-- 根据ISBN码查找一本书下面的所有评论 -->
+	<select id="findComments" resultType="com.BookSystem.javaBean.Comment">
+		select * from comments where fromISBN=#{fromISBN} 
+	</select>
+	<!-- 根据ISBN码和用户ID，找一本书下面某个用户的所有评论 -->
+	<select id="findCommentsWithISBNAndUserID" resultType="com.BookSystem.javaBean.Comment">
+		select * from comments where fromISBN=#{fromISBN} and fromUserID=#{fromUserID}
+	</select>
+</mapper>

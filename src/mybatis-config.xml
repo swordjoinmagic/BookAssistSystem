@@ -17,6 +17,8 @@
 	
 	<mappers>
 		 <mapper resource="UserMapper.xml" />
+		 <mapper resource="commentMapper.xml"/>
+		 <mapper resource="specialKeyMapper.xml" />
 		<!--  <package name="com.BookSystem.DataBaseManagement"/>-->
 	</mappers>
 	
