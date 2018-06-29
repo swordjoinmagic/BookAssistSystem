@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.BookSystem.MybatisMapper.MybatisUserMapper">
+	<!-- 根据用户ID查找用户 -->
+	<select id="selectUserByUserID" parameterType="string" resultType="com.BookSystem.javaBean.User">
+		select * from users where userName=#{userName}
+	</select>
+	<!-- 根据用户email查找用户 -->
+	<select id="selectUserByUserEmail" parameterType="string" resultType="com.BookSystem.javaBean.User">
+		select * from users where email=#{email}
+	</select>
+	<!-- 查找所有开启自动续借的用户 -->
+	<select id="findUsersByEnableAutoBorrow" parameterType="int" resultType="com.BookSystem.javaBean.User">
+		select * from users where isEnableAutoBorrow=#{isEnableAutoBorrow}
+	</select>
+	<!-- 查找所有开启新书速递的用户 -->
+	<select id="findUsersByEnableAutoNewBook" parameterType="int" resultType="com.BookSystem.javaBean.User">
+		select * from users where isEnableAutoBorrow=#{isEnableAutoBorrow}
+	</select>
+	<!-- 用于插入用户 -->
+	<insert id="insertUsersByIDAndPassword">
+		insert into users(userName,password) values(#{userName},#{password})
+	</insert>
+	
+	<!-- 用于更新用户 -->
+	<update id="updateUsersByEmailAndNickName">
+		update users set nickName=#{nickName},email=#{email}
+		where userName=#{userName}
+	</update>
+</mapper>
+ 
