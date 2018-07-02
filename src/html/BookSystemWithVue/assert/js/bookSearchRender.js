@@ -11,13 +11,6 @@ var searchResult = new Vue({
             }
         }
      },
-     computed:{
-        //  // 计算图书的URL的getter
-        //  bookUrl:function(){
-        //      // this指向vm实例
-        //     //  return this
-        //  }
-     },
      methods:{
          getBookUrl:function(ISBN){
             return 'BookSystem/book/'+ISBN;
@@ -36,7 +29,7 @@ var dividePage1 = new Vue({
     },
     methods:{
         gotoPage:function(page){
-           updateSearchResult(page,searchInputModel.sortType,searchInputModel.searchType,searchInputModel.queryContent);
+           updateSearchResult(page,searchInputModel.sortType,searchInputModel.searchType,encodeURI(searchInputModel.queryContent));
         }
     }
 });
@@ -50,7 +43,7 @@ var dividePage2 = new Vue({
     },
     methods:{
         gotoPage:function(page){
-           updateSearchResult(page,searchInputModel.sortType,searchInputModel.searchType,searchInputModel.queryContent);
+           updateSearchResult(page,searchInputModel.sortType,searchInputModel.searchType,encodeURI(searchInputModel.queryContent));
         }
     }
 });
@@ -62,6 +55,11 @@ var searchInputModel = new Vue({
         sortType:0,
         searchType:'AllKeyButNotCatalog',
         queryContent:''
+    },
+    methods:{
+        gotoPage:function(page){
+            updateSearchResult(page,searchInputModel.sortType,searchInputModel.searchType,encodeURI(searchInputModel.queryContent));
+         }
     }
 });
 
@@ -73,6 +71,12 @@ function updateSearchResult(page,sortType,searchType,queryContent){
         type:'GET',
         success:function(data){
             searchResult.data = data;
+
+            // 缩短书名
+            searchResult.data.document.bookList.forEach(element => {
+                element.bookName = element.bookName.split("/")[0]
+                element.bookName = element.bookName.split('=')[0]
+            });
 
             // 更新分页
             totalPage = data.document.totalPage;
@@ -95,6 +99,11 @@ function updateSearchResult(page,sortType,searchType,queryContent){
             dividePage2.totalPage = totalPage;
             dividePage2.totalCount = totalCount;
 
+            // 绘制五角星
+            setTimeout(() => {
+                drawFiveStar(searchResult.data.document.bookList);    
+            }, 10);
+            
         }
     });
 }
