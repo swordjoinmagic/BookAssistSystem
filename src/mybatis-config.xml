@@ -16,9 +16,9 @@
 	</environments>
 	
 	<mappers>
-		 <mapper resource="UserMapper.xml" />
-		 <mapper resource="commentMapper.xml"/>
-		 <mapper resource="specialKeyMapper.xml" />
+		 <mapper resource="mybatisMapperXML/UserMapper.xml" />
+		 <mapper resource="mybatisMapperXML/commentMapper.xml"/>
+		 <mapper resource="mybatisMapperXML/specialKeyMapper.xml" />
 		<!--  <package name="com.BookSystem.DataBaseManagement"/>-->
 	</mappers>
 	

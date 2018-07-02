@@ -10,4 +10,13 @@
   	<servlet-name>BookSystem</servlet-name>
   	<url-pattern>/</url-pattern>
   </servlet-mapping>
+  <!-- 配置Spring IOC配置文件的路径 -->
+  <context-param>
+  	<param-name>contextConfigLocation</param-name>
+  	<param-value>/WEB-INF/applicationContext.xml</param-value>
+  </context-param>
+  <!-- 配置ContextLoaderListener用以初始化Spring IOC容器 -->
+  <listener>
+  	<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+  </listener>
 </web-app>

@@ -68,6 +68,9 @@ public class BookSearchController {
 			"'ratingAverage':-1" + 
 			"}";
 	
+
+	
+	
 	// 一页有多少条数据
 	private int limitCount = 10;
 	
@@ -188,11 +191,17 @@ public class BookSearchController {
 			bookList.add(document);
 		}
 		
+		
+		// 构造用于分页的JSON
+		
+		
 		// 构造JSON
 		Document JSON = new Document();
 		JSON.append("bookList", bookList);
 		JSON.append("totalCount", totalCount);
 		JSON.append("totalPage", totalPage);
+		
+		
 		
 		view.addObject(JSON);
 		
