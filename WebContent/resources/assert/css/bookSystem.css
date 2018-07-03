@@ -199,3 +199,8 @@ span.specialLabel{
 .wordCloud{
 	display: none;
 }
+
+/* ================设置界面======================= */
+#basesetup,#attention,#history,#freenotice{
+	cursor:pointer;
+}

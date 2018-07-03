@@ -30,10 +30,8 @@ function getFiveStar(id,filled){
     bookList.forEach(element => {
         ISBN = element.ISBN;
         rating = element.ratingAverage;
-        console.log("正在绘制ISBN码为："+ISBN+" 评分为："+rating);
         for(i=1;i<=5;i++){
             id = 'canvas'+ISBN+'with'+i;
-            console.log("正在绘制"+id+"的五角星");
             if(rating/2 >= i){
                 getFiveStar(id,true);
             }else{

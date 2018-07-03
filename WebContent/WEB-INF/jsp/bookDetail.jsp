@@ -177,7 +177,7 @@
 						<c:out value="${content}" escapeXml="false"></c:out>
 						<a class="watchMore" href="javascript:$('.longintro').hide();$('.shortintro').show();">收起</a>
 					</div>
-				</div>
+				</div> 
 				<!-- 书籍的目录 -->
 				<div class="bookCatalogue">
 					<legend><span class="bookLabel">目录  · · · · · ·</span></legend>

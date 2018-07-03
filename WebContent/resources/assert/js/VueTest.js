@@ -1,9 +1,9 @@
 var app = new Vue({
     el:'#app',
     data:{
-        data:{}
+        seen:false
     }
 });
 
 
-
+array.forEach();

@@ -15,10 +15,12 @@ var searchResult = new Vue({
      },
      methods:{
          getBookUrl:function(ISBN){
-            return 'BookSystem/book/'+ISBN;
+            console.log("getBookUrl方法执行");
+            console.log('/BookAssitantSystem/book/'+ISBN);
+            return '/BookAssitantSystem/book/'+ISBN;
          }
      }
-});
+}); 
 
 // 用于显示分页结果的两个VUE模型
 var dividePage1 = new Vue({
@@ -114,4 +116,4 @@ function updateSearchResult(page,sortType,searchType,queryContent){
 
 
 // Test
-updateSearchResult(10,1,"",encodeURI('java[^script]'));
+updateSearchResult(0,0,"",encodeURI('java[^script]'));

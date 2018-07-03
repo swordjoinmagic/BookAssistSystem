@@ -68,11 +68,11 @@ public class BookController {
 			// 添加smallContent和smallCatalog
 			view.addObject("smallContent",content.substring(0, content.length()/5));
 			view.addObject("smallCatalog",catalog.substring(0, catalog.length()/3));
-			
+			 
 			view.setViewName("bookDetail");
 		}catch(Exception e) {
 			e.printStackTrace();
-			view.setViewName("index");
+			view.setViewName("index"); 
 		}
 		return view;
 	}
