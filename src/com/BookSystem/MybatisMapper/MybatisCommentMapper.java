@@ -24,4 +24,11 @@ public interface MybatisCommentMapper {
 	 * @return
 	 */
 	public List<Comment> findCommentsWithISBNAndUserID(@Param("fromISBN") String fromISBN,@Param("fromUserID") String fromUserID,RowBounds rowBounds);
+
+	/**
+	 * 根据ISBN码和USerID，对一本书插入一个用户的评论
+	 * @param fromISBN
+	 * @param fromUserID
+	 */
+	public void insertComment(@Param("fromISBN")String fromISBN,@Param("fromUserID")String fromUserID,@Param("comment")String comment);
 }

@@ -1,3 +1,5 @@
+// 使用Vue渲染搜索的结果页面
+
 // 用于显示搜查结果的VUE模型
 var searchResult = new Vue({
      el:'#searchResult',

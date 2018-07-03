@@ -703,7 +703,7 @@ footer.entry-meta .meta-in {
   margin: 0 0 0 90px;
 }
 #comments .comment-meta {
-  margin: 0 0 0 90px;
+  margin: 0 0 0 0px;
 }
 #comments .comment-meta a {
   color: #333333;
@@ -725,7 +725,7 @@ footer.entry-meta .meta-in {
   float: right;
 }
 #comments .comment-body {
-  margin: 0 0 35px 90px;
+  margin: 10px 25px 35px 25px;
 }
 .comment-navigation {
   width: 100%;

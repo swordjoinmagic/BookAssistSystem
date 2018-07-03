@@ -44,4 +44,10 @@ public class TestController {
 		
 		return view;
 	}
+	@RequestMapping("test3")
+	public ModelAndView test3() {
+		ModelAndView view = new ModelAndView();
+		view.setViewName("bookDetail");
+		return view;
+	}
 }

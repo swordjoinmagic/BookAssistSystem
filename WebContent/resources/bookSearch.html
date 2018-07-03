@@ -66,7 +66,7 @@
 		</div>
 
 		<!--登录界面,登录之前-->
-		<!-- {% if request.session.isLogin %}
+		<!-- {% if request.session.isLogin %} -->
 		<div class="login topy">
 			<p>
 				<strong class="vwmy"><a href="" target="_blank" title="访问我的空间">{{request.session.userName}}</a></strong>
@@ -75,7 +75,7 @@
 				<span class="pipe">|</span><a href="/bookSystem/quitLogin">退出</a>
 			</p>
 		</div>
-		{% else %}
+		<!-- {% else %}
 		<form action="/bookSystem/login" method="POST">
 			{% csrf_token %}
 			<div class="topy login">
@@ -131,10 +131,10 @@
 						<center class="">
 							<ul class="pagination">
 								<template v-if="page <= 0">
-									<li><a href="javascript:void(0);" v-on:click="gotoPage(0)">«</a></li>
+									<li><a href="javascript:void(0);">«</a></li>
 								</template>
 								<template v-else>
-									<li><a href="javascript:void(0);" v-on:click="gotoPage(0)">«</a></li>
+									<li><a href="javascript:void(0);" v-on:click="gotoPage(page-1)">«</a></li>
 								</template>
 
 								<template v-if="page-5>0">
@@ -144,7 +144,7 @@
 
 								<template v-for="p in range">
 									<template v-if="p == page">
-										<li class="active"><a href="javascript:void(0);" v-on:click="gotoPage(p)">{{ p }}</a></li>
+										<li class="active"><a href="javascript:void(0);">{{ p }}</a></li>
 									</template>
 									<template v-else>
 										<li><a href="javascript:void(0);" v-on:click="gotoPage(p)">{{ p }}</a></li>
@@ -158,10 +158,10 @@
 								<li><a href="javascript:void(0);" v-on:click="gotoPage(totalPage)">{{totalPage}}</a></li>
 
 								<template v-if="page>=totalPage">
-									<li><a href="javascript:void(0);" v-on:click="gotoPage(totalPage)">»</a></li>
+									<li><a href="javascript:void(0);">»</a></li>
 								</template>
 								<template v-else>
-									<li><a href="javascript:void(0);" v-on:click="gotoPage(totalPage)">»</a></li>
+									<li><a href="javascript:void(0);" v-on:click="gotoPage(page+1)">»</a></li>
 								</template>
 							</ul>
 						</center>
@@ -274,53 +274,50 @@
 					<br/>
 				</fieldset>
 			</div>
-
 		</aside>
-		<!--分页标签-->
-		<div class="dividePage" id="dividePage2">
-			<legend>
-				<center class="">
-					<ul class="pagination">
-						<template v-if="page <= 0">
-							<li><a href="">«</a></li>
-						</template>
-						<template v-else>
-							<li><a href="">«</a></li>
-						</template>
-
-						<template v-if="page-5>0">
-							<li><a href="">0</a></li>
-							<li><a>.......</a></li>
-						</template>
-
-						<template v-for="p in range">
-							<template v-if="p == page">
-								<li class="active"><a href="">{{ p }}</a></li>
-							</template>
-							<template v-else>
-								<li><a href="">{{ p }}</a></li>
-							</template>
-						</template>
-
-						<template v-if="page+5 < totalPage">
-							<li><a>.......</a></li>
-						</template>
-
-						<li><a href="">{{totalPage}}</a></li>
-
-						<template v-if="page>=totalPage">
-							<li><a href="">»</a></li>
-						</template>
-						<template v-else>
-							<li><a href="">»</a></li>
-						</template>
-					</ul>
-				</center>
-			</legend>
-		</div>
-
 	</div>
+	<!--分页标签-->
+	<div class="dividePage" id="dividePage2">
+		<legend>
+			<center class="">
+				<ul class="pagination">
+					<template v-if="page <= 0">
+						<li><a href="">«</a></li>
+					</template>
+					<template v-else>
+						<li><a href="">«</a></li>
+					</template>
 
+					<template v-if="page-5>0">
+						<li><a href="">0</a></li>
+						<li><a>.......</a></li>
+					</template>
+
+					<template v-for="p in range">
+						<template v-if="p == page">
+							<li class="active"><a href="">{{ p }}</a></li>
+						</template>
+						<template v-else>
+							<li><a href="">{{ p }}</a></li>
+						</template>
+					</template>
+
+					<template v-if="page+5 < totalPage">
+						<li><a>.......</a></li>
+					</template>
+
+					<li><a href="">{{totalPage}}</a></li>
+
+					<template v-if="page>=totalPage">
+						<li><a href="">»</a></li>
+					</template>
+					<template v-else>
+						<li><a href="">»</a></li>
+					</template>
+				</ul>
+			</center>
+		</legend>
+	</div>
 </main>
 
 <footer id="footer" class="topspace">

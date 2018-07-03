@@ -9,4 +9,8 @@
 	<select id="findCommentsWithISBNAndUserID" resultType="com.BookSystem.javaBean.Comment">
 		select * from comments where fromISBN=#{fromISBN} and fromUserID=#{fromUserID}
 	</select>
+	<!-- 根据ISBN码和用户ID，对一本书的评论区插入一个用户的评论 -->
+	<insert id="insertComment">
+		insert into comments(comment,fromISBN,fromUserID) values(#{comment}, #{fromISBN}, #{fromUserID})
+	</insert>
 </mapper>

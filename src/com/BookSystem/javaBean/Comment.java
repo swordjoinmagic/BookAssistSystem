@@ -1,5 +1,8 @@
 package com.BookSystem.javaBean;
 
+import java.sql.Timestamp;
+import java.util.Date;
+
 public class Comment {
 	private int id;
 	public int getId() {
@@ -34,5 +37,12 @@ public class Comment {
 	private String comment;
 	private String fromISBN;
 	private String fromUserID;
+	private Date createTime;
+	public Date getCreateTime() {
+		return createTime;
+	}
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}
 	
 }

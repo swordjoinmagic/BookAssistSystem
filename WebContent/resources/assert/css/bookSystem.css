@@ -153,9 +153,6 @@ span.cleaned{
 a.watchMore:hover{
 	background: deepskyblue;
 }
-.wordCloud{
-	display: none;
-}
 .bookRecommand{
 	width: 180px;
 	height: 180px;
@@ -194,4 +191,11 @@ span.specialLabel{
 }
 .loginContent{
 	width: 300px;
+}
+
+
+
+/* ===============书籍详情界面========================== */
+.wordCloud{
+	display: none;
 }

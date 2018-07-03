@@ -23,17 +23,15 @@ import com.BookSystem.javaBean.Comment;
 import com.mongodb.client.FindIterable;
 
 /*
- * ·µ»Ø¾ßÌåÄ³Ò»±¾ÊéµÄ¿ØÖÆÆ÷
+ * è¿”å›å…·ä½“æŸä¸€æœ¬ä¹¦çš„æ§åˆ¶å™¨
  */
 
 @Controller
 @RequestMapping("/book")
 public class BookController {
-	
 	private String jsonISBNKey = "{'ISBN': {'$regex': '%s', '$options': 'i'}}";
-	
 	/**
-	 * »ñµÃ¾ßÌåµÄÄ³Ò»±¾ÊéµÄJSON½Ó¿Ú
+	 * è·å¾—å…·ä½“çš„æŸä¸€æœ¬ä¹¦çš„JSONæ¥å£
 	 * @param id
 	 * @return
 	 */
@@ -41,14 +39,12 @@ public class BookController {
 	public ModelAndView getBook(@PathVariable("id")String id) {
 		ModelAndView view = new ModelAndView();
 		
-		// »ñµÃÊı¾İ¿âÊµÀı
+		// è·å¾—æ•°æ®åº“å®ä¾‹
 		MongoDBCommentDataBase ado = MongoDBCommentDataBase.getDao();
 		
-		// Í¨¹ıISBNºÅ²éÕÒÊé
+		// é€šè¿‡ISBNå·æŸ¥æ‰¾ä¹¦
 		Document findData = Document.parse(String.format(jsonISBNKey, id));
-		
-		System.out.println(findData.toJson());
-		
+				
 		FindIterable<Document>result = ado.findWithDefaultCollection(findData);
 		
 		List<Document>books = new ArrayList<Document>();
@@ -56,14 +52,33 @@ public class BookController {
 			books.add(document);
 		}
 		
-		view.addObject(books);
-		view.setView(new MappingJackson2JsonView());
-		
+		try {
+			for(String key : books.get(0).keySet()) {
+				// ç¼©çŸ­ä¹¦å
+				if(key.equals("bookName")) {
+					String bookName = books.get(0).getString(key);
+					books.get(0).put(key, bookName.split("/|=")[0]);
+				}
+					
+				view.addObject(key,books.get(0).get(key));
+			}
+			String content = books.get(0).getString("content");
+			String catalog = books.get(0).getString("catalog");
+			
+			// æ·»åŠ smallContentå’ŒsmallCatalog
+			view.addObject("smallContent",content.substring(0, content.length()/5));
+			view.addObject("smallCatalog",catalog.substring(0, catalog.length()/3));
+			
+			view.setViewName("bookDetail");
+		}catch(Exception e) {
+			e.printStackTrace();
+			view.setViewName("index");
+		}
 		return view;
 	}
 
 	/**
-	 * ÕÒµ½Ä³Ò»±¾ÊéÏÂÃæµÄÈ«²¿ÆÀÂÛ
+	 * æ‰¾åˆ°æŸä¸€æœ¬ä¹¦ä¸‹é¢çš„å…¨éƒ¨è¯„è®º
 	 * @param ISBN
 	 * @return
 	 */
@@ -75,7 +90,7 @@ public class BookController {
 		try {
 			session = MybatisManager.getSqlsessionfactory().openSession();
 			MybatisCommentMapper commentMapper = session.getMapper(MybatisCommentMapper.class);
-			List<Comment>comments = commentMapper.findComments(ISBN, new RowBounds(page*10,10));
+			List<Comment>comments = commentMapper.findComments(ISBN, new RowBounds(page*5,5));
 			
 			view.addObject("comments", comments);
 			view.addObject("page",page);
@@ -90,7 +105,7 @@ public class BookController {
 	}
 
 	/**
-	 * ¸ù¾İÒ»±¾ÊéµÄISBNÂëºÍÓÃ»§id£¬ÕÒµ½¸ÃÓÃ»§ÔÚÕâ±¾ÊéÏÂÃæµÄËùÓĞÆÀÂÛ
+	 * æ ¹æ®ä¸€æœ¬ä¹¦çš„ISBNç å’Œç”¨æˆ·idï¼Œæ‰¾åˆ°è¯¥ç”¨æˆ·åœ¨è¿™æœ¬ä¹¦ä¸‹é¢çš„æ‰€æœ‰è¯„è®º
 	 * @return
 	 */
 	@RequestMapping(path="/comments/{ISBN}/user/{userName}/page/{page}")

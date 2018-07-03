@@ -1,5 +1,8 @@
+// 用于绘制五角星的脚本
+
 function getFiveStar(id,filled){
     var canvas = document.getElementById(id);
+    canvas.height = canvas.height;
     var context = canvas.getContext("2d");
     context.beginPath();
     //设置是个顶点的坐标，根据顶点制定路径

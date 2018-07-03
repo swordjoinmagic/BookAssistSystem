@@ -190,10 +190,7 @@ public class BookSearchController {
 		for(Document document:result.skip(page*limitCount).limit(limitCount)) {
 			bookList.add(document);
 		}
-		
-		
-		// 构造用于分页的JSON
-		
+				
 		
 		// 构造JSON
 		Document JSON = new Document();
