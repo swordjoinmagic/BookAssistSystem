@@ -204,6 +204,12 @@ span.specialLabel{
 #basesetup,#attention,#history,#freenotice{
 	cursor:pointer;
 }
+.historyModel td{
+	width: 300px;
+	margin: 40px;
+	padding: 10px;
+	text-align: center;
+}
 
 
 /* =================登录界面================================ */

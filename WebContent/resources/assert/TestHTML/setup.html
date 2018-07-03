@@ -196,13 +196,49 @@
 			</article>
 			
 			<!-- 历史记录 -->
+			<!-- 使用vue渲染 -->
 			<article class="col-sm-8 maincontent" id="historyModel" v-if="actived">
-
+				<table class="historyModel" border="1">
+					<tr>
+						<td>类型</td>
+						<td class="tdMeesage">消息</td>
+						<td>创建时间</td>
+					</tr>
+					<tr>
+						<td>自动续借</td>
+						<td class="tdMeesage">续借成功</td>
+						<td>2018-7-4</td>
+					</tr>
+					<tr>
+						<td>自动续借</td>
+						<td class="tdMeesage">续借成功</td>
+						<td>2018-7-4</td>
+					</tr>
+					<tr>
+						<td>自动续借</td>
+						<td class="tdMeesage">续借成功</td>
+						<td>2018-7-4</td>
+					</tr>
+				</table>
 			</article>
 
 			<!-- 馆藏空闲通知 -->
+			<!-- 使用vue渲染 -->
 			<article class="col-sm-8 maincontent" id="freenoticeModel" v-if="actived">
-				
+				<table class="historyModel" border="1">
+					<tr>
+						<td>书名</td>
+						<td>ISBN</td>
+						<td>索书号</td>
+						<td>目前状态</td>
+					</tr>
+					<tr>
+						<td>从入门到精通</td>
+						<td>1231241513</td>
+						<td>TP3123.14</td>
+						<td>空闲</td>
+					</tr>
+				</table>
 			</article>
 			<!-- /Article -->
 

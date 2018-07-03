@@ -70,7 +70,7 @@ var searchInputModel = new Vue({
 // 用于更新页面上的搜查结果的ajax
 function updateSearchResult(page,sortType,searchType,queryContent){
     $.ajax({
-        url:'http://localhost:8080/BookAssitantSystem/search?page='+page+'&sortType='+sortType+'&searchType='+searchType+'&queryContent='+queryContent,
+        url:'http://localhost:8080/BookAssitantSystem/search?page='+page+'&sortType='+sortType+'&searchType='+searchType+'&queryContent='+queryContent+'&token='+getEncryptionCode(),
         dataType:'jsonp',
         type:'GET',
         success:function(data){

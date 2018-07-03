@@ -19,6 +19,7 @@
 		 <mapper resource="mybatisMapperXML/UserMapper.xml" />
 		 <mapper resource="mybatisMapperXML/commentMapper.xml"/>
 		 <mapper resource="mybatisMapperXML/specialKeyMapper.xml" />
+		 <mapper resource="mybatisMapperXML/historyMapper.xml" />
 		<!--  <package name="com.BookSystem.DataBaseManagement"/>-->
 	</mappers>
 	

@@ -1,0 +1,11 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.BookSystem.MybatisMapper.MybatisRecordMapper">
+	<!-- 根据UserID，找到一名用户的所有历史记录 -->
+	<select id="findHistoryRecords" parameterType="string" resultType="com.BookSystem.javaBean.HistoryRecord">
+		select * from historys where fromUserID=#{fromUserID}
+	</select>
+	<!-- 根据UserID,找到一名用户的所有馆藏空闲通知 -->
+	<select id="findCollectionFreeNotices" parameterType="string" resultType="com.BookSystem.javaBean.FreeNotice">
+		select * from freennotices where fromUserID=#{fromUserID}
+	</select>
+</mapper>
