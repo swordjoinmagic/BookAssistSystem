@@ -1,3 +1,5 @@
+<%@ page language="java" contentType="text/html; charset=utf-8"
+    pageEncoding="utf-8"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,14 +14,15 @@
 	<!-- Icon font -->
 	<link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
 	<!-- Custom styles -->
-	<link rel="stylesheet" href="../css/styles.css">
-	<link rel="stylesheet" href="../css/bookSystem.css" />
+	<link rel="stylesheet" href="/BookAssitantSystem/resources/assert/css/styles.css">
+	<link rel="stylesheet" href="/BookAssitantSystem/resources/assert/css/bookSystem.css" />
 
 	<script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.0.js"></script>
 
 	<!-- 引入vue -->
 	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-	<script src="../js/myEncryption.js"></script>
+	
+	<script src="/BookAssitantSystem/resources/assert/js/myEncryption.js"></script>
 
 </head>
 <style>
@@ -187,6 +190,6 @@
 </html>
 
 
-<script src="../js/loginRender.js">
+<script src="/BookAssitantSystem/resources/assert/js/loginRender.js">
 	
 </script>

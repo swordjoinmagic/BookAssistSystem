@@ -22,6 +22,8 @@
 
 	  	<!-- 引入vue -->
 	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	<script src="/BookAssitantSystem/resources/assert/js/myEncryption.js"></script>
+	
 </head>
 <body>
 

@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -12,6 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
 import com.BookSystem.Decryption.MyDecryptionUtil;
+import com.BookSystem.HttpUtil.HttpClientUtil;
 
 /**
  * 用于登录的控制器
@@ -20,11 +22,24 @@ import com.BookSystem.Decryption.MyDecryptionUtil;
 @Controller
 @RequestMapping("/login")
 public class LoginController {
+	
+	/**
+	 * 简单的展示登录界面
+	 * @return
+	 */
+	@RequestMapping()
+	public ModelAndView show() {
+		ModelAndView view = new ModelAndView();
+		view.setViewName("login");
+		
+		return view;
+	}
+	
 	/**
 	 * 登录检查
 	 * @return
 	 */
-	@RequestMapping(method=RequestMethod.POST)
+	@RequestMapping(path="/check")
 	public ModelAndView loginCheck(
 			@RequestParam(name="userName") String userName,
 			@RequestParam(name="password") String password,
@@ -41,14 +56,21 @@ public class LoginController {
 		}
 		
 		// ToDO，这一段使用python开放的接口，判断是否可以登录学校图书馆
+		String url = "http://localhost:8088/interface/login?userName=%s&password=%s";
+		JSONObject result = HttpClientUtil.get(String.format(url, userName,password));
 		
+		// 获得请求到的JSON的状态
+		boolean status = result.getBoolean("status");
+		String errorMsg = result.getString("errorMsg");
 		
 		// 完成登录验证后，将用户名加入session
-		HttpSession session = httpServletRequest.getSession();
-		session.setAttribute("userName", userName);
+		if(status) {
+			System.out.println("status的状态是:"+status+" 写入session");
+			HttpSession session = httpServletRequest.getSession();
+			session.setAttribute("userName", userName);
+		}
 		view.addObject("status",true);
-		view.addObject("errorMsg",null);
-		
+		view.addObject("errorMsg",errorMsg);
 		return view;
 	}
 }

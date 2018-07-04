@@ -2,6 +2,9 @@ package com.BookSystem.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Controller;
@@ -15,6 +18,7 @@ import com.BookSystem.DataBaseManagement.MybatisManager;
 import com.BookSystem.MybatisMapper.MybatisRecordMapper;
 import com.BookSystem.javaBean.FreeNotice;
 import com.BookSystem.javaBean.HistoryRecord;
+import com.fasterxml.jackson.annotation.JsonCreator.Mode;
 
 /**
  * 返回各式各样的记录的控制器
@@ -58,6 +62,24 @@ public class RecordController {
 		List<FreeNotice>list = recordMapper.findCollectionFreeNotices(fromUserID, new RowBounds(page*10,10));
 		
 		view.addObject("freeNoticeList",list);
+		
+		return view;
+	}
+
+	/**
+	 * 获得当前session中的UserName
+	 * @return
+	 */
+	@RequestMapping("/getName")
+	public ModelAndView getUserName(HttpServletRequest request) {
+		ModelAndView view = new ModelAndView();
+		view.setView(new MappingJackson2JsonView());
+		
+		HttpSession session = request.getSession();
+		
+		String username = (String) session.getAttribute("userName");
+		
+		view.addObject("userName",username);
 		
 		return view;
 	}

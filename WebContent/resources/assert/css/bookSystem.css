@@ -210,7 +210,13 @@ span.specialLabel{
 	padding: 10px;
 	text-align: center;
 }
-
+span.prePage{
+	cursor:pointer;
+}
+span.nextPage{
+	float: right;
+	cursor:pointer;
+}
 
 /* =================登录界面================================ */
 .loginNew span{
