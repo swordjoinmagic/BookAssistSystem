@@ -247,46 +247,50 @@
 			<div class="col-sm-8 col-sm-offset-2">
 
 				<div id="comments">
-					<legend><span class="bookLabel">评论 · · · · · ·</span></legend>
-					<span><a href="">文字版</a></span><span class="cleaned">/</span> <span><a href="">词云版</a></span>
+					<div id="commentsClick">
+						<legend><span class="bookLabel">评论 · · · · · ·</span></legend>
+						<span><a href="" onclick="return false;" v-on:click="clickWord()">文字版</a></span>
+						<span class="cleaned">/</span> 
+						<span><a href=""  onclick="return false;" v-on:click="clickWordCloud()">词云版</a></span>
+					</div>
+					<div id="commentsResult" v-if="actived">
+						<ol class="comments-list word">
 
-					<ol class="comments-list word" id="commentsResult">
-
-						<template v-if="comments.length > 0">
-							<template v-for="comment in comments">
-								<li class="comment">
-									<div>
-										<!-- <img src="assets/images/avatar_woman.png" alt="Avatar" class="avatar"> -->
-										<div class="comment-meta">
-											<!--用户名-->
-											<span class="author"><a href="#">{{comment.fromUserID}}</a></span>
-											<!--用户评论时间-->
-											<span class="date">{{getDate(comment.createTime)}}</span>
-										</div><!-- .comment-meta -->
-  
-									 	<!--评论主体-->
-										<div class="comment-body">
-											{{comment.comment}}
-										</div><!-- .comment-body -->
-									</div>
-								</li>
-								<hr>
+							<template v-if="comments.length > 0">
+								<template v-for="comment in comments">
+									<li class="comment">
+										<div>
+											<!-- <img src="assets/images/avatar_woman.png" alt="Avatar" class="avatar"> -->
+											<div class="comment-meta">
+												<!--用户名-->
+												<span class="author"><a href="#">{{comment.fromUserID}}</a></span>
+												<!--用户评论时间-->
+												<span class="date">{{getDate(comment.createTime)}}</span>
+											</div><!-- .comment-meta -->
+	
+											<!--评论主体-->
+											<div class="comment-body">
+												{{comment.comment}}
+											</div><!-- .comment-body -->
+										</div>
+									</li>
+									<hr>
+								</template>
 							</template>
-						</template>
-						<template v-else>
-							暂无评论
-						</template>
-					</ol>
-
+							<template v-else>
+								暂无评论
+							</template>
+						</ol>
+					</div>
 					<!--词云部分-->
-					<div class="wordCloud">
+					<div id="wordCloud" v-if="actived">
 						<center>
-							<img src="assets/images/s1.jpg" height="300px" width="600px" />
+							<img src="http://localhost:8088/interface/getWordCloud?ISBN=${ISBN}" height="300px" width="600px" />
 						</center>
 					</div>
 					 
 					<!-- 评论分页 -->
-					<div class="" id="dividePageComments">
+					<div class="" id="dividePageComments" v-if="getActived()">
 						<center>
 							<ul class="pagination margin">
 								<li><a href="" onclick="return false;" v-on:click="gotoPageComments(page-1)">&lt;&lt;上一页 </a></li>

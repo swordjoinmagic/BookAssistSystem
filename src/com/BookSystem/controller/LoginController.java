@@ -24,7 +24,7 @@ import com.BookSystem.HttpUtil.HttpClientUtil;
 public class LoginController {
 	
 	/**
-	 * 简单的展示登录界面
+	 * 用于跳转至登录界面，同时，给语音验证码设置题目以及答案
 	 * @return
 	 */
 	@RequestMapping()
@@ -36,7 +36,7 @@ public class LoginController {
 	}
 	
 	/**
-	 * 登录检查
+	 * 登录检查,这里检查该账号是否可以登录学校图书馆
 	 * @return
 	 */
 	@RequestMapping(path="/check")
@@ -69,6 +69,7 @@ public class LoginController {
 			HttpSession session = httpServletRequest.getSession();
 			session.setAttribute("userName", userName);
 		}
+		
 		view.addObject("status",true);
 		view.addObject("errorMsg",errorMsg);
 		return view;

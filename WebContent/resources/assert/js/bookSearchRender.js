@@ -80,6 +80,10 @@ function updateSearchResult(page,sortType,searchType,queryContent){
             searchResult.data.document.bookList.forEach(element => {
                 element.bookName = element.bookName.split("/")[0]
                 element.bookName = element.bookName.split('=')[0]
+                setTimeout(() => {
+                    getBookCollection(element.systemNumber,element);
+                }, Math.ceil(Math.random()*10));
+            
             });
 
             // 更新分页
@@ -112,8 +116,26 @@ function updateSearchResult(page,sortType,searchType,queryContent){
     });
 }
 
+// 获得一本书的馆藏副本信息,需要提供系统号
+function getBookCollection(systemNumber,book){
 
-
+    $.ajax({
+        url:'http://localhost:8088/interface/getBookCollectionStatus?systemNumber='+systemNumber,
+        // dataType:'jsonp',
+        type:'GET',
+        success:function(data){
+            console.log("请求馆藏信息成功，他的数据为:");
+            console.log(data.book);
+            console.log("这本书是:");
+            console.log(book);
+            book.remainDataXiLi.remain = data.book[0].remain;
+            book.remainDataLiuXian.remain = data.book[1].remain;
+            console.log("这本书值改变之后");
+            console.log(book);
+            
+        }
+    });
+}
 
 // Test
 updateSearchResult(0,0,"",encodeURI('java[^script]'));

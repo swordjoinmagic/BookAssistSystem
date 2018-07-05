@@ -238,3 +238,8 @@ span.nextPage{
 .loginNew input{
 	float: right;
 }
+
+/* ===================书籍搜索界面============================== */
+.bookCollectionTable td.labelCollection{
+	padding-left: 40px;
+}

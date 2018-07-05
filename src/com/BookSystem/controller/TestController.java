@@ -50,4 +50,14 @@ public class TestController {
 		view.setViewName("bookDetail");
 		return view;
 	}
+	
+	@RequestMapping("test4")
+	public ModelAndView test4() {
+		ModelAndView view = new ModelAndView();
+		view.setViewName("osExam");
+		
+		
+		
+		return view;
+	}
 }

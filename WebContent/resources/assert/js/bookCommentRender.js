@@ -4,7 +4,8 @@ var commentsResult = new Vue({
     data:{
         ISBN:'',
         comments:[],
-        page:0
+        page:0,
+        actived:true
     },
     methods:{
         getDate:function(createTime){
@@ -13,7 +14,30 @@ var commentsResult = new Vue({
             m = "0"+(date.getMonth()+1);
             d = "0"+date.getDate();
             return y+"-"+m.substring(m.length-2,m.length)+"-"+d.substring(d.length-2,d.length);
-        }  
+        },
+
+    }
+});
+
+var commentsClickModel = new Vue({
+    el:'#commentsClick',
+    methods:{
+        clickWord:function(){
+            wordCloudModel.actived = false;
+            commentsResult.actived = true;
+        },
+        clickWordCloud:function(){
+            wordCloudModel.actived = true;
+            commentsResult.actived = false;
+        }
+    }
+});
+
+// 用于渲染词云的vue模型
+var wordCloudModel = new Vue({
+    el:'#wordCloud',
+    data:{
+        actived:false
     }
 });
 
@@ -40,6 +64,9 @@ var dividePageComments = new Vue({
             
             }
 
+        },
+        getActived:function(){
+            return commentsResult.actived;
         }
     }
 });

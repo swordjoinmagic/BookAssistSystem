@@ -22,7 +22,7 @@
 	<script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.0.js"></script>
 	<!-- 引入vue -->
 	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
- 
+	<script src="assert/js/myEncryption.js"></script>
 </head>
 <body>
 
@@ -196,9 +196,24 @@
 										<td class="bookDetailLabel">年份：</td>
 										<td class="bookDetailContent">{{ book.publishYear }}</td>
 									</tr>
+								</table>
+								<br>
+								<table class="bookCollectionTable">
 									<tr>
 										<td class="bookDetailLabel">馆藏复本:</td>
-										<td class="bookISBN bookDetailContent">加载中....</td>
+										<!-- <td class="bookISBN bookDetailContent">加载中....</td> -->
+									</tr>
+									<tr>
+										<td class="labelCollection"></td>
+										<td class="labelCollection">西丽湖校区</td>
+										<td class="labelCollection">在架上：{{book.remainDataXiLi.remain['free']}}</td>
+										<td class="labelCollection">已借出：{{book.remainDataXiLi.remain['Lent']}}</td>
+									</tr>
+									<tr>
+										<td class="labelCollection"></td>
+										<td class="labelCollection">留仙洞校区</td>
+										<td class="labelCollection">在架上：{{book.remainDataLiuXian.remain['free']}}</td>
+										<td class="labelCollection">已借出：{{book.remainDataLiuXian.remain['Lent']}}</td>
 									</tr>
 								</table>
 							</div>

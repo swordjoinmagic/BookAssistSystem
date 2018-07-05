@@ -69,7 +69,10 @@ public class BookSearchController {
 			"}";
 	
 
-	
+	private String jsonBookCollectionStatus = "{'remain':{" + 
+			"'free':'正在加载'," + 
+			"'Lent':'正在加载'" + 
+			"}}";
 	
 	// 一页有多少条数据
 	private int limitCount = 10;
@@ -190,7 +193,14 @@ public class BookSearchController {
 		for(Document document:result.skip(page*limitCount).limit(limitCount)) {
 			bookList.add(document);
 		}
-				
+		
+		
+		Document defaultStatus = Document.parse(jsonBookCollectionStatus);
+		
+		for(Document book : bookList) {
+			book.append("remainDataXiLi", defaultStatus);
+			book.append("remainDataLiuXian", defaultStatus);
+		}
 		
 		// 构造JSON
 		Document JSON = new Document();
