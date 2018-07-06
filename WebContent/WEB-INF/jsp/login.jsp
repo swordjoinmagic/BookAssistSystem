@@ -146,8 +146,9 @@
 					<hr>
 					<div id="verificationCodeDiv">
 						<div class="errorMsg"><span style="color: red">请回答语音验证码中提到的问题~</span></div>
-						<span>语音验证码:</span><input type="text"><br/>
-						<audio src="http://localhost:8088/interface/getAudio?content=MTYyNDAwMTE=" controls="controls">sad</audio> <br>
+						<span>语音验证码:</span>
+						<input type="text" name="verificationCode"><br/>
+						<audio src="http://localhost:8088/interface/getAudio?content=${qustionContent}" controls="controls">sad</audio> <br>
 					</div>				
 					<hr>
 					<button type="submit">登录</button>

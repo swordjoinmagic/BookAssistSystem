@@ -1,9 +1,14 @@
 package com.BookSystem.controller;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.Charset;
+
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.ibatis.session.SqlSession;
 import org.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,8 +17,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
+import com.BookSystem.DataBaseManagement.MybatisManager;
 import com.BookSystem.Decryption.MyDecryptionUtil;
 import com.BookSystem.HttpUtil.HttpClientUtil;
+import com.BookSystem.MybatisMapper.MybatisQuestionMapper;
+import com.BookSystem.javaBean.Question;
+
+import sun.misc.BASE64Encoder;
 
 /**
  * 用于登录的控制器
@@ -26,11 +36,26 @@ public class LoginController {
 	/**
 	 * 用于跳转至登录界面，同时，给语音验证码设置题目以及答案
 	 * @return
+	 * @throws UnsupportedEncodingException 
 	 */
 	@RequestMapping()
-	public ModelAndView show() {
+	public ModelAndView show(HttpServletRequest httpServletRequest) throws UnsupportedEncodingException {
 		ModelAndView view = new ModelAndView();
 		view.setViewName("login");
+		
+		SqlSession session = MybatisManager.getSqlsessionfactory().openSession();
+		
+		MybatisQuestionMapper questionMapper = session.getMapper(MybatisQuestionMapper.class);
+		
+		Question question = questionMapper.getRandomQuestion();
+		
+		httpServletRequest.getSession().setAttribute("answer", question.getAnswer());
+		
+		String encodeQuestion = new BASE64Encoder().encode(question.getQuestion().getBytes("UTF-8"));
+		
+		encodeQuestion = URLEncoder.encode(encodeQuestion);
+		
+		view.addObject("qustionContent",encodeQuestion);
 		
 		return view;
 	}
@@ -44,6 +69,7 @@ public class LoginController {
 			@RequestParam(name="userName") String userName,
 			@RequestParam(name="password") String password,
 			@RequestParam(name="token") String token,
+			@RequestParam(name="verificationCode")String verificationCode,
 			HttpServletRequest httpServletRequest) {
 		ModelAndView view = new ModelAndView();
 		view.setView(new MappingJackson2JsonView());
@@ -55,14 +81,39 @@ public class LoginController {
 			return view;
 		}
 		
+		// 判断验证码是否正确
+		String answer="";
+		try {
+			answer = (String) httpServletRequest.getSession().getAttribute("answer");
+		}catch(Exception e) {
+			e.printStackTrace();
+			view.addObject("status",false);
+			view.addObject("errorMsg","没有答案");
+			return view;
+		}
+		System.out.println("提交的答案是:"+verificationCode+" 验证码是:"+answer);
+		if(!verificationCode.equals(answer)) {
+			String errorMsg = "验证码不正确";
+			view.addObject("status",false);
+			view.addObject("errorMsg",errorMsg);
+			return view;
+		}
+		
 		// ToDO，这一段使用python开放的接口，判断是否可以登录学校图书馆
 		String url = "http://localhost:8088/interface/login?userName=%s&password=%s";
 		JSONObject result = HttpClientUtil.get(String.format(url, userName,password));
 		
+		boolean status;
+		String errorMsg;
 		// 获得请求到的JSON的状态
-		boolean status = result.getBoolean("status");
-		String errorMsg = result.getString("errorMsg");
-		
+		try {
+			status = result.getBoolean("status");
+			errorMsg = result.getString("errorMsg");
+		}catch(Exception e) {
+			e.printStackTrace();
+			status = false;
+			errorMsg = "服务器内部错误";
+		}
 		// 完成登录验证后，将用户名加入session
 		if(status) {
 			System.out.println("status的状态是:"+status+" 写入session");

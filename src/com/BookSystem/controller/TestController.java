@@ -3,7 +3,9 @@ package com.BookSystem.controller;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.ibatis.session.SqlSession;
 import org.springframework.context.ApplicationContext;
+import org.springframework.orm.hibernate5.SessionFactoryUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -15,6 +17,9 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
 import com.BookSystem.ApplicationContextUtil.ContextUtil;
+import com.BookSystem.DataBaseManagement.MybatisManager;
+import com.BookSystem.MybatisMapper.MybatisQuestionMapper;
+import com.BookSystem.javaBean.Question;
 
 import test.Source;
 
@@ -57,6 +62,22 @@ public class TestController {
 		view.setViewName("osExam");
 		
 		
+		
+		return view;
+	}
+	
+	@RequestMapping("test5")
+	public ModelAndView test5() {
+		ModelAndView view = new ModelAndView();
+		view.setView(new MappingJackson2JsonView());
+		
+		SqlSession session = MybatisManager.getSqlsessionfactory().openSession();
+		
+		MybatisQuestionMapper questionMapper = session.getMapper(MybatisQuestionMapper.class);
+		
+		Question question = questionMapper.getRandomQuestion();
+		
+		view.addObject(question);
 		
 		return view;
 	}

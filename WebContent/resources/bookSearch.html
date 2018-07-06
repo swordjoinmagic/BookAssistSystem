@@ -201,21 +201,26 @@
 								<table class="bookCollectionTable">
 									<tr>
 										<td class="bookDetailLabel">馆藏复本:</td>
-										<!-- <td class="bookISBN bookDetailContent">加载中....</td> -->
-									</tr>
-									<tr>
-										<td class="labelCollection"></td>
-										<td class="labelCollection">西丽湖校区</td>
-										<td class="labelCollection">在架上：{{book.remainDataXiLi.remain['free']}}</td>
-										<td class="labelCollection">已借出：{{book.remainDataXiLi.remain['Lent']}}</td>
-									</tr>
-									<tr>
-										<td class="labelCollection"></td>
-										<td class="labelCollection">留仙洞校区</td>
-										<td class="labelCollection">在架上：{{book.remainDataLiuXian.remain['free']}}</td>
-										<td class="labelCollection">已借出：{{book.remainDataLiuXian.remain['Lent']}}</td>
+										<td class="bookISBN bookDetailContent" v-bind:id="'ExpandButton'+book.ISBN"><a style="color: blue" v-on:click="getBookCollectionStatusWithVue(book,book.systemNumber)">展开↓</a></td>
+										<td style="display: none" class="bookISBN bookDetailContent" v-bind:id="'CollapseButton'+book.ISBN"><a style="color: blue" v-on:click="collapse(book)">收起↑</a></td>
 									</tr>
 								</table>
+								<div v-bind:id="'bookCollectionStatus'+book.ISBN" style="display: none">
+									<table class="bookCollectionTable">
+											<tr>
+												<td class="labelCollection"></td>
+												<td class="labelCollection">西丽湖校区</td>
+												<td class="labelCollection">在架上：{{book.remainDataXiLi.remain['free']}}</td>
+												<td class="labelCollection">已借出：{{book.remainDataXiLi.remain['Lent']}}</td>
+											</tr>
+											<tr>
+												<td class="labelCollection"></td>
+												<td class="labelCollection">留仙洞校区</td>
+												<td class="labelCollection">在架上：{{book.remainDataLiuXian.remain['free']}}</td>
+												<td class="labelCollection">已借出：{{book.remainDataLiuXian.remain['Lent']}}</td>
+											</tr>
+									</table>
+								</div>
 							</div>
 						</article>
 						<br/>

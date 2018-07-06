@@ -1,23 +1,20 @@
 package com.BookSystem.javaBean;
 
-import java.util.List;
-
 public class Question {
-	// 问题描述
-	private String description;
-	// 问题里的参数
-	private List<String> params;
-	public String getDescription() {
-		return description;
+	private int id;
+	private String question;
+	private String answer;
+	public int getId() {
+		return id;
 	}
-	public void setDescription(String description) {
-		this.description = description;
+	public void setId(int id) {
+		this.id = id;
 	}
-	public List<String> getParams() {
-		return params;
+	public String getQuestion() {
+		return question;
 	}
-	public void setParams(List<String> params) {
-		this.params = params;
+	public void setQuestion(String question) {
+		this.question = question;
 	}
 	public String getAnswer() {
 		return answer;
@@ -25,6 +22,4 @@ public class Question {
 	public void setAnswer(String answer) {
 		this.answer = answer;
 	}
-	// 问题的答案
-	private String answer;
 }

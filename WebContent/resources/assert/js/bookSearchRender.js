@@ -1,5 +1,7 @@
 // 使用Vue渲染搜索的结果页面
 
+timeOutlist = []
+
 // 用于显示搜查结果的VUE模型
 var searchResult = new Vue({
      el:'#searchResult',
@@ -18,6 +20,38 @@ var searchResult = new Vue({
             console.log("getBookUrl方法执行");
             console.log('/BookAssitantSystem/book/'+ISBN);
             return '/BookAssitantSystem/book/'+ISBN;
+         },
+         getBookCollectionStatusWithVue:function(book,systemNumber){
+
+            $("#CollapseButton"+book.ISBN).show();
+            $("#ExpandButton"+book.ISBN).hide();
+
+            $("#bookCollectionStatus"+book.ISBN).slideDown("slow");
+
+            $.ajax({
+                url:'http://localhost:8088/interface/getBookCollectionStatus?systemNumber='+systemNumber,
+                // dataType:'jsonp',
+                type:'GET',
+                success:function(data){
+                    console.log("请求馆藏信息成功，他的数据为:");
+                    console.log(data.book);
+                    console.log("这本书是:");
+                    console.log(book);
+                    book.remainDataXiLi.remain = data.book[0].remain;
+                    book.remainDataLiuXian.remain = data.book[1].remain;
+                    console.log("这本书值改变之后");
+                    console.log(book);
+                    
+                }
+            });
+         },
+         collapse:function(book){
+
+            $("#CollapseButton"+book.ISBN).hide();
+            $("#ExpandButton"+book.ISBN).show();
+
+            $("#bookCollectionStatus"+book.ISBN).slideUp("slow");
+
          }
      }
 }); 
@@ -78,12 +112,11 @@ function updateSearchResult(page,sortType,searchType,queryContent){
 
             // 缩短书名
             searchResult.data.document.bookList.forEach(element => {
-                element.bookName = element.bookName.split("/")[0]
-                element.bookName = element.bookName.split('=')[0]
-                setTimeout(() => {
-                    getBookCollection(element.systemNumber,element);
-                }, Math.ceil(Math.random()*10));
-            
+                element.bookName = element.bookName.split("/")[0];
+                element.bookName = element.bookName.split('=')[0];
+                // setTimeout(() => {
+                //     getBookCollection(element.systemNumber,element);
+                // }, Math.ceil(Math.random()*10));
             });
 
             // 更新分页
@@ -136,6 +169,7 @@ function getBookCollection(systemNumber,book){
         }
     });
 }
+
 
 // Test
 updateSearchResult(0,0,"",encodeURI('java[^script]'));

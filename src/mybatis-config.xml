@@ -20,6 +20,7 @@
 		 <mapper resource="mybatisMapperXML/commentMapper.xml"/>
 		 <mapper resource="mybatisMapperXML/specialKeyMapper.xml" />
 		 <mapper resource="mybatisMapperXML/historyMapper.xml" />
+		 <mapper resource="mybatisMapperXML/questionMapper.xml" />
 		<!--  <package name="com.BookSystem.DataBaseManagement"/>-->
 	</mappers>
 	
