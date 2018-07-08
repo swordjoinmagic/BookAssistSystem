@@ -226,9 +226,7 @@ public class TestController {
 		
 		System.out.println("读者的新书速递书中有这些内容:");
 		System.out.println(newBookJson.toJson());
-		
-		EmailManager.getEmailManager().sendnewBookTipsEmail(user.getEmail(), newBookJson);
-		
+				
 		return view;
 	}
 }

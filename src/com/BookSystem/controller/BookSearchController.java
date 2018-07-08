@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.bson.Document;
+import org.omg.PortableServer.AdapterActivatorOperations;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.Mapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -99,6 +100,7 @@ public class BookSearchController {
 	 * 					"IndexKey"			  - 索书号
 	 * 					"SystemNumberKey"	  - 系统号
 	 * @param queryContent: 查询的内容
+	 * @param isNewBook: 本次查询是否为新书查询，如果是新书查询，那么最后result将在新书库中查询
 	 * @return
 	 */
 	@RequestMapping(path="/search",method=RequestMethod.GET)
@@ -107,7 +109,8 @@ public class BookSearchController {
 			@RequestParam(name="sortType",required=false,defaultValue="0") int sortType,
 			@RequestParam(name="searchType",required=false,defaultValue="") String searchType,
 			@RequestParam(name="queryContent",required=false,defaultValue="") String queryContent,
-			@RequestParam(name="extraConditionYear",required=false,defaultValue="") String extraConditionYear) {
+			@RequestParam(name="extraConditionYear",required=false,defaultValue="") String extraConditionYear,
+			@RequestParam(name="isNewBook",required=false,defaultValue="false")String isNewBook) {
 		
 		// 构造视图-模型
 		ModelAndView view = new ModelAndView();
@@ -126,7 +129,7 @@ public class BookSearchController {
 			case "AllKey":
 				// 所有字段
 				findData = Document.parse(String.format(jsonAllKey, queryContent));
-				result = ado.findWithDefaultCollection(findData);
+//				result = ado.findWithDefaultCollection(findData);
 				break;
 			case "CatalogKey":
 				// 目录
@@ -169,7 +172,13 @@ public class BookSearchController {
 			}
 		}catch(Exception e) {}
 				
-		result = ado.findWithDefaultCollection(findData);
+		if(isNewBook.equals("true")) {
+			// 前往新书库查找结果
+			result = ado.find(ado.getCollection("newBookData"), findData);
+		}else {
+			result = ado.findWithDefaultCollection(findData);
+		}
+			
 		
 		
 		// 根据排序类型来对结果进行排序
@@ -241,4 +250,5 @@ public class BookSearchController {
 		view.addObject("extraSortType",extraSortType);
 		return view;
 	}
+
 }
