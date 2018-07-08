@@ -4,6 +4,9 @@ import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.bson.Document;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.Mapping;
@@ -22,7 +25,7 @@ import com.mongodb.client.FindIterable;
 public class BookSearchController {
 	
 	// 查询字典的字符串表示
-	private String jsonOrAllKeysButNotCatalog = "{'$or':[" + 
+	public static String jsonOrAllKeysButNotCatalog = "{'$or':[" + 
 			"{'bookName':{'$regex':'%1$s','$options':'i'}}," + 
 			"{'content': {'$regex': '%1$s', '$options': 'i'}}," + 
 			"{'author': {'$regex': '%1$s', '$options': 'i'}}," + 
@@ -32,14 +35,14 @@ public class BookSearchController {
 			"{'publisher': {'$regex': '%1$s', '$options': 'i'}}," + 
 			"{'systemNumber': {'$regex': '%1$s', '$options': 'i'}}" + 
 			"]}";
-	private String jsonCatalogKey = "{'catalog': {'$regex': '%s', '$options': 'i'}}";
-	private String jsonBookNameKey = "{'bookName': {'$regex': '%s', '$options': 'i'}}";
-	private String jsonBookAuthorKey = "{'author': {'$regex': '%s', '$options': 'i'}}";
-	private String jsonBookPublisherKey = "{'publisher': {'$regex': '%s', '$options': 'i'}}";
-	private String jsonISBNKey = "{'ISBN': {'$regex': '%s', '$options': 'i'}}";
-	private String jsonIndexKey = "{'index': {'$regex': '%s', '$options': 'i'}}";
-	private String jsonSystemNumberKey = "{'systemNumber':{'$regex': '%s', '$options': 'i'}}";
-	private String jsonAllKey = "{'$or':[" + 
+	public static  String jsonCatalogKey = "{'catalog': {'$regex': '%s', '$options': 'i'}}";
+	public static  String jsonBookNameKey = "{'bookName': {'$regex': '%s', '$options': 'i'}}";
+	public static  String jsonBookAuthorKey = "{'author': {'$regex': '%s', '$options': 'i'}}";
+	public static  String jsonBookPublisherKey = "{'publisher': {'$regex': '%s', '$options': 'i'}}";
+	public static  String jsonISBNKey = "{'ISBN': {'$regex': '%s', '$options': 'i'}}";
+	public static  String jsonIndexKey = "{'index': {'$regex': '%s', '$options': 'i'}}";
+	public static  String jsonSystemNumberKey = "{'systemNumber':{'$regex': '%s', '$options': 'i'}}";
+	public static  String jsonAllKey = "{'$or':[" + 
 			"{'catalog': {'$regex': '%1$s', '$options': 'i'}}," + 
 			"{'bookName':{'$regex':'%1$s','$options':'i'}}," + 
 			"{'content': {'$regex': '%1$s', '$options': 'i'}}," + 
@@ -52,24 +55,24 @@ public class BookSearchController {
 			"]}";
 	
 	// 排序查询字典字符串表示
-	public static String jsonSortType0 = "{" + 
+	public static  String jsonSortType0 = "{" + 
 			"'publishYear':-1," + 
 			"'ratingAverage':-1," + 
 			"'ratingNumberRaters':-1" + 
 			"}";
-	private String jsonSortType1 = "{" + 
+	public static  String jsonSortType1 = "{" + 
 			"'ratingAverage':-1," + 
 			"'publishYear':-1," + 
 			"'ratingNumberRaters':-1" + 
 			"}";
-	private String jsonSortType2 = "{" + 
+	public static  String jsonSortType2 = "{" + 
 			"'ratingNumberRaters':-1," + 
 			"'publishYear':-1," + 
 			"'ratingAverage':-1" + 
 			"}";
 	
 
-	private String jsonBookCollectionStatus = "{'remain':{" + 
+	public static  String jsonBookCollectionStatus = "{'remain':{" + 
 			"'free':'正在加载'," + 
 			"'Lent':'正在加载'" + 
 			"}}";
@@ -209,11 +212,33 @@ public class BookSearchController {
 		JSON.append("totalPage", totalPage);
 		
 		
-		
 		view.addObject(JSON);
 		
 		view.setView(new MappingJackson2JsonView());
 		
+		return view;
+	}
+
+	@RequestMapping("/bookSearch")
+	public ModelAndView bookSearch(
+			HttpServletRequest httpServletRequest,
+			@RequestParam(name="queryContent",required=false,defaultValue="")String extraQuery,
+			@RequestParam(name="sortType",required=false,defaultValue="0")int extraSortType,
+			@RequestParam(name="searchType",required=false,defaultValue="") String extraSearchType,
+			@RequestParam(name="extraPage",required=false,defaultValue="0")int extraPage
+			) {
+		ModelAndView view = new ModelAndView();
+		view.setViewName("bookSearch");
+		
+		HttpSession httpSession = httpServletRequest.getSession();
+		
+		System.out.println("ifLogin:");
+		System.out.println(httpSession.getAttribute("isLogin"));
+		
+		view.addObject("extraQuery",extraQuery);
+		view.addObject("extraPage",extraPage);
+		view.addObject("extraSearchType",extraSearchType);
+		view.addObject("extraSortType",extraSortType);
 		return view;
 	}
 }

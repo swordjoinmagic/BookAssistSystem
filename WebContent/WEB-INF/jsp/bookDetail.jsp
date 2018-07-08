@@ -40,9 +40,9 @@
 
 		<h1 id="logo" class="text-center">Szpt BookSystem</h1>
 		<!--搜索条-->
-		<div class="searchBar">
-			<form action="/bookSystem/searchwithpymongo" method="GET">
-				<select name="find_code" id="find_code">
+		<div class="searchBar" id="searchInputModel">
+			<form action="/BookAssitantSystem/bookSearch" method="GET">
+				<select name="searchType" id="find_code" v-model="searchType">
 				     <option value="AllKeyButNotCatalog" selected="">所有字段(除目录)</option>
 				     <option value="AllKey">所有字段</option>
 				     <option value="CatalogKey">目录</option>
@@ -53,32 +53,31 @@
 				     <option value="IndexKey">索书号</option>
 				     <option value="SystemNumberKey">系统号</option>
 			    </select>
-				<input id="searchInput" type="text" name="searchKey" value="{{ searchKey }}" />
+				<input id="searchInput" type="text" name="queryContent" v-model="queryContent" />
 				<input type="submit" value="检索" />
 				<div id="operate">
 					<span id="label">排序：</span>
-					<select name="sort" id="sort">
-						<option value="Year-Rating-Person" selected="">年/评分/评论人数(降序)</option>
-						<option value="Rating-Year-Person">评分/年/评论人数(降序)</option>
-						<option value="Person-Year-Rating">评论人数/年/评分(降序)</option>
+					<select name="sortType" id="sort" v-model="sortType">
+						<option value="0" selected="">年/评分/评论人数(降序)</option>
+						<option value="1">评分/年/评论人数(降序)</option>
+						<option value="2">评论人数/年/评分(降序)</option>
 					</select>
 				</div>
 			</form>
 		</div>
 
-		<!--登录界面,登录之前-->
-		<!-- {% if request.session.isLogin %}
+		<!--登录界面-->
+		<c:if test="${sessionScope.isLogin}">
 		<div class="login topy">
 			<p>
-				<strong class="vwmy"><a href="" target="_blank" title="访问我的空间">{{request.session.userName}}</a></strong>
-				<span class="pipe">|</span><a href="javascript:;" id="myitem" class="showmenu" onmouseover="showMenu({'ctrlid':'myitem'});" initialized="true">我的</a>
-				<span class="pipe">|</span><a href="/bookSystem/ttest">设置</a>
-				<span class="pipe">|</span><a href="/bookSystem/quitLogin">退出</a>
+				<strong class="vwmy"><a href="" target="_blank">${sessionScope.userName}</a></strong>
+				<span class="pipe">|</span><a href="/BookAssitantSystem/setup">设置</a>
+				<span class="pipe">|</span><a href="/BookAssitantSystem/login/quit">退出</a>
 			</p>
-		</div>
-		{% else %}
-		<form action="/bookSystem/login" method="POST">
-			{% csrf_token %}
+		</div> 
+		</c:if>
+		<c:if test="${empty sessionScope.isLogin || sessionScope.isLogin==false}">
+		<form action="/BookAssitantSystem/login" method="POST">
 			<div class="topy login">
 				<table cellspacing="0" cellpadding="0">
 					<tbody>
@@ -94,11 +93,9 @@
 						</tr>
 					</tbody>
 				</table>
-				<input type="hidden" name="quickforward" value="yes">
-				<input type="hidden" name="handlekey" value="ls">
 			</div>
 		</form>
-		{% endif %} -->
+		</c:if>
 	</div>
 
 	<nav class="navbar navbar-default">
@@ -106,7 +103,7 @@
 			<div class="navbar-collapse collapse">
 
 				<ul class="nav navbar-nav">
-					<li><a href="index.html">Home</a></li>
+					<li><a href="/BookAssitantSystem/bookSearch">Home</a></li>
 					<li><a href="blog.html">新书速递</a></li>
 					<li class="active"><a href="about.html">About</a></li>
 				</ul>

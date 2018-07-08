@@ -13,4 +13,9 @@ public interface MybatisSpecialKeyMapper {
 	 * @return
 	 */
 	public List<SpecialKey> findSpecialKeysWithUserID(@Param("fromUserID") String fromUserID);
+
+	/*
+	 * 根据用户ID，为用户插入特别关注标签
+	 */
+	public void insertSpecialkeyWithUserID(@Param("fromUserID") String fromUserID,@Param("specialKey")String specialKey,@Param("keyType")String keyType);
 }

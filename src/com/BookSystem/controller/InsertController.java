@@ -49,6 +49,7 @@ public class InsertController {
 		commentMapper.insertComment(ISBN, fromUserID, comment);
 		session.commit();
 				
+		session.close();
 		view.addObject("status",true);
 		view.addObject("errorMsg",null);
 		

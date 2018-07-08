@@ -2,10 +2,7 @@ package test;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Delayed;
-
-import org.omg.PortableServer.POAPackage.WrongAdapter;
-
+import java.util.Scanner;
 /*
  * 用于避免死锁的银行家算法
  */
@@ -48,6 +45,108 @@ public class DeadlockAvoidance {
 		max = new int[n][m];
 		allocation = new int[n][m];
 		need = new int[n][m];
+	}
+	
+	// 等待输入
+	public void waitInput() {
+		Scanner in = new Scanner(System.in);
+		System.out.println("本系统共有"+n+"个进程"+m+"种资源，等待用户输入数据~");
+		for(int j=0;j<m;j++) {
+			System.out.println("请输入available["+j+"]");
+			available[j] = in.nextInt();
+		}
+		for(int i=0;i<n;i++) {
+			for(int j=0;j<m;j++) {
+				System.out.println("请输入max["+i+"]["+j+"]");
+				max[i][j] = in.nextInt();
+			}
+		}
+		for(int i=0;i<n;i++) {
+			for(int j=0;j<m;j++) {
+				System.out.println("请输入allocation["+i+"]["+j+"]");
+				allocation[i][j] = in.nextInt();
+			}
+		}
+		
+		// 下面为need数组进行赋值
+		for(int i=0;i<n;i++) {
+			for(int j=0;j<m;j++) {
+				need[i][j] = max[i][j] - allocation[i][j];
+			}
+		}
+		print();
+		
+		inputRequest();
+	}
+	
+	public void inputRequest() {
+		System.out.println("请输入发起请求的进程号");
+		Scanner in = new Scanner(System.in);
+		int threadNumber = in.nextInt();
+		System.out.println("您输入的是p"+threadNumber+"进程");
+		System.out.println("该进程的需求量是:");
+		for(int j=0;j<m;j++) {
+			System.out.print(need[threadNumber][j]+"  ");
+		}
+		System.out.println();
+		System.out.println("请输入请求资源的数目:");
+		
+		int[] newResource = new int[m];
+		
+		for(int j=0;j<m;j++) {
+			newResource[j] = in.nextInt();
+		}
+		System.out.println("开始执行银行家算法，尝试进行分配");
+		boolean result = tryAllocation(threadNumber, newResource);
+		
+		if(result) {
+			System.out.println("分配成功");
+		}else {
+			System.out.println("分配失败");
+		}
+		
+		System.out.println("更新数据，开始打印");
+	
+		print();
+		inputRequest();
+	}
+	
+	// 用于显示数据的函数
+	public void print() {
+		System.out.println("进程个数为:"+n);
+		System.out.println("资源种数:"+m);
+		System.out.println("|-------|-----------|-----------|-----------|-----------|");
+		System.out.println("|       |----最大需求-|-已分配矩阵---|-需求矩阵----|--可用资源---|");
+		System.out.println("|   资源   |     max   |Allocation |  Need     | Available |");
+		System.out.println("|       |  A  B  C  |  A  B  C  |  A  B  C  |  A  B  C  |");
+		System.out.println("|  进程      |           |           |           |           |");
+		System.out.println("|-------|-----------|-----------|-----------|-----------|");
+		
+		for(int i=0;i<n;i++) {
+			System.out.print("|  p"+i+"   |");
+			
+			for(int j=0;j<m;j++) {
+				System.out.print("  "+max[i][j]);
+			}
+			System.out.print("  ");
+			for(int j=0;j<m;j++) {
+				System.out.print("  "+allocation[i][j]);
+			}
+			System.out.print("  ");
+			for(int j=0;j<m;j++) {
+				System.out.print("  "+need[i][j]);
+			}
+			System.out.print("  ");
+			if(i==0)
+				for(int j=0;j<m;j++) {
+					System.out.print("  "+available[j]);
+				}
+			else 
+				System.out.print("            |");
+			System.out.println();
+		}
+		System.out.println("|-------|-----------|-----------|-----------|-----------|");
+
 	}
 	
 	// 对系统目前的状态进行安全性检测，返回true表示安全，false相反
@@ -186,114 +285,14 @@ public class DeadlockAvoidance {
 	}
 }
 class Testttt{
+	
+	  
 	public static void main(String[] args) {
 		
 		// 五个进程，三类资源
 		DeadlockAvoidance deadlockAvoidance = new DeadlockAvoidance(5,3);
 		
-		//=======================================================
-		// 设置max
-		deadlockAvoidance.max[0][0] = 7;
-		deadlockAvoidance.max[0][1] = 5;
-		deadlockAvoidance.max[0][2] = 3;
-		
-		deadlockAvoidance.max[1][0] = 3;
-		deadlockAvoidance.max[1][1] = 2;
-		deadlockAvoidance.max[1][2] = 2;
-		
-		deadlockAvoidance.max[2][0] = 9;
-		deadlockAvoidance.max[2][1] = 0;
-		deadlockAvoidance.max[2][2] = 2;
-		
-		deadlockAvoidance.max[3][0] = 2;
-		deadlockAvoidance.max[3][1] = 2;
-		deadlockAvoidance.max[3][2] = 2;
-		
-		deadlockAvoidance.max[4][0] = 4;
-		deadlockAvoidance.max[4][1] = 3;
-		deadlockAvoidance.max[4][2] = 3;
-		//========================================================
-		
-		
-		//==============================================
-		// 设置allocatioin
-		deadlockAvoidance.allocation[0][0] = 0;
-		deadlockAvoidance.allocation[0][1] = 1;
-		deadlockAvoidance.allocation[0][2] = 0;
-		
-		deadlockAvoidance.allocation[1][0] = 2;
-		deadlockAvoidance.allocation[1][1] = 0;
-		deadlockAvoidance.allocation[1][2] = 0;
-		
-		deadlockAvoidance.allocation[2][0] = 3;
-		deadlockAvoidance.allocation[2][1] = 0;
-		deadlockAvoidance.allocation[2][2] = 2;
-		
-		deadlockAvoidance.allocation[3][0] = 2;
-		deadlockAvoidance.allocation[3][1] = 1;
-		deadlockAvoidance.allocation[3][2] = 1;
-		
-		deadlockAvoidance.allocation[4][0] = 0;
-		deadlockAvoidance.allocation[4][1] = 0;
-		deadlockAvoidance.allocation[4][2] = 2;
-		
-		//==================================================
-		
-		//=================================================
-		// 设置need数组
-		deadlockAvoidance.need[0][0] = 7;
-		deadlockAvoidance.need[0][1] = 4;
-		deadlockAvoidance.need[0][2] = 3;
-		
-		deadlockAvoidance.need[1][0] = 1;
-		deadlockAvoidance.need[1][1] = 2;
-		deadlockAvoidance.need[1][2] = 2;
-		
-		deadlockAvoidance.need[2][0] = 6;
-		deadlockAvoidance.need[2][1] = 0;
-		deadlockAvoidance.need[2][2] = 0;
-		
-		deadlockAvoidance.need[3][0] = 0;
-		deadlockAvoidance.need[3][1] = 1;
-		deadlockAvoidance.need[3][2] = 1;
-		
-		deadlockAvoidance.need[4][0] = 4;
-		deadlockAvoidance.need[4][1] = 3;
-		deadlockAvoidance.need[4][2] = 1;
-		
-		//==================================
-		// 设置available
-		deadlockAvoidance.available[0] = 3;
-		deadlockAvoidance.available[1] = 3;
-		deadlockAvoidance.available[2] = 2;
-		//==================================
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		System.out.println("开始尝试分配资源");
-		int[] resources = new int[3];
-		resources[0] = 1;
-		resources[1] = 0;
-		resources[2] = 2;
-		
-		
-		// 尝试给进程1分配资源
-		deadlockAvoidance.tryAllocation(1, resources);
-		
-		int[] resouces2 = new int[3];
-		resouces2[0] = 0;
-		resouces2[1] = 2;
-		resouces2[2] = 0;
-		deadlockAvoidance.tryAllocation(0, resouces2);
+		deadlockAvoidance.waitInput();
 		
 		
 	}

@@ -176,12 +176,14 @@ function updateHistory(page,userID){
 
 function updateFreeNotice(page,userID){
     $.ajax({
-        url:'http://localhost:8080/BookAssitantSystem/record/historys?fromUserID='+userID+'&page='+page,
+        url:'http://localhost:8080/BookAssitantSystem/record/freeNotices?fromUserID='+userID+'&page='+page,
         dataType:'jsonp',
         type:'GET',
         success:function(data){
+            console.log(data);
             // 更新historyModel中的信息
             freenoticeModel.freeNoticeList = data.freeNoticeList;
+            console.log(freenoticeModel.freeNoticeList);
             freenoticeModel.page = page;
         }
     });

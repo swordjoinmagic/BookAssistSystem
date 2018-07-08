@@ -29,7 +29,7 @@ public class HttpClientUtil {
                 json = new JSONObject(new JSONTokener(new InputStreamReader(entity.getContent(), HTTP.UTF_8)));   
             } 
 		}catch(Exception e) {
-			throw new RuntimeException(e);
+			e.printStackTrace();
 		}finally {
 			client.getConnectionManager().shutdown();
 		}

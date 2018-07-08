@@ -60,7 +60,7 @@ public class RecordController {
 		
 		// 获得数据集
 		List<FreeNotice>list = recordMapper.findCollectionFreeNotices(fromUserID, new RowBounds(page*10,10));
-		
+		session.close();
 		view.addObject("freeNoticeList",list);
 		
 		return view;

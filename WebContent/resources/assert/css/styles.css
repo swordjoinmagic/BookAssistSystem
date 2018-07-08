@@ -479,14 +479,14 @@ img {
 }
 /* pagination */
 .pagination > li > a {
-  color: #808080;
+  /* color: #808080; */
   border: 0 none;
   font-size: 20px;
   font-size: 1.25rem;
   font-family: Georgia, serif;
 }
 .pagination > li > a:hover {
-  color: #000000;
+  color: #808080;
   background: none;
 }
 .pagination > li.active > a {

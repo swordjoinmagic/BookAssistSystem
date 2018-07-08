@@ -12,8 +12,9 @@ var searchResult = new Vue({
                 totalCount:0,
                 totalPage:0,
                 page:0
-            }
-        }
+            },
+        },
+        isLoading:true
      },
      methods:{
          getBookUrl:function(ISBN){
@@ -103,11 +104,13 @@ var searchInputModel = new Vue({
 
 // 用于更新页面上的搜查结果的ajax
 function updateSearchResult(page,sortType,searchType,queryContent){
+    searchResult.isLoading = true;
     $.ajax({
-        url:'http://localhost:8080/BookAssitantSystem/search?page='+page+'&sortType='+sortType+'&searchType='+searchType+'&queryContent='+queryContent+'&token='+getEncryptionCode(),
-        dataType:'jsonp',
+        url:'/BookAssitantSystem/search?page='+page+'&sortType='+sortType+'&searchType='+searchType+'&queryContent='+queryContent+'&token='+getEncryptionCode(),
+        // dataType:'jsonp',
         type:'GET',
         success:function(data){
+            searchResult.isLoading = false;
             searchResult.data = data;
 
             // 缩短书名
@@ -172,4 +175,3 @@ function getBookCollection(systemNumber,book){
 
 
 // Test
-updateSearchResult(0,0,"",encodeURI('java[^script]'));

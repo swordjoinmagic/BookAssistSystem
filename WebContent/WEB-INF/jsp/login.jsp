@@ -45,9 +45,9 @@
 
 		<h1 id="logo" class="text-center">Szpt BookSystem</h1>
 		<!--搜索条-->
-		<div class="searchBar">
-			<form action="/bookSystem/searchwithpymongo" method="GET">
-				<select name="find_code" id="find_code">
+		<div class="searchBar" id="searchInputModel">
+			<form action="/BookAssitantSystem/bookSearch" method="GET">
+				<select name="searchType" id="find_code" v-model="searchType">
 				     <option value="AllKeyButNotCatalog" selected="">所有字段(除目录)</option>
 				     <option value="AllKey">所有字段</option>
 				     <option value="CatalogKey">目录</option>
@@ -58,52 +58,20 @@
 				     <option value="IndexKey">索书号</option>
 				     <option value="SystemNumberKey">系统号</option>
 			    </select>
-				<input id="searchInput" type="text" name="searchKey" value="{{ searchKey }}" />
+				<input id="searchInput" type="text" name="queryContent" v-model="queryContent" />
 				<input type="submit" value="检索" />
 				<div id="operate">
 					<span id="label">排序：</span>
-					<select name="sort" id="sort">
-						<option value="Year-Rating-Person" selected="">年/评分/评论人数(降序)</option>
-						<option value="Rating-Year-Person">评分/年/评论人数(降序)</option>
-						<option value="Person-Year-Rating">评论人数/年/评分(降序)</option>
+					<select name="sortType" id="sort" v-model="sortType">
+						<option value="0" selected="">年/评分/评论人数(降序)</option>
+						<option value="1">评分/年/评论人数(降序)</option>
+						<option value="2">评论人数/年/评分(降序)</option>
 					</select>
 				</div>
 			</form>
 		</div>
 
-		<!--登录界面,登录之前-->
-		<!-- {% if request.session.isLogin %}
-		<div class="login topy">
-			<p>
-				<strong class="vwmy"><a href="" target="_blank" title="访问我的空间">{{request.session.userName}}</a></strong>
-				<span class="pipe">|</span><a href="javascript:;" id="myitem" class="showmenu" onmouseover="showMenu({'ctrlid':'myitem'});" initialized="true">我的</a>
-				<span class="pipe">|</span><a href="/bookSystem/ttest">设置</a>
-				<span class="pipe">|</span><a href="/bookSystem/quitLogin">退出</a>
-			</p>
-		</div>
-		{% else %}
-		<form action="/bookSystem/login" method="POST">
-			{% csrf_token %}
-			<div class="topy login">
-				<table cellspacing="0" cellpadding="0">
-					<tbody>
-						<tr>
-							<td><label for="ls_username">帐号</label></td>
-							<td><input type="text" name="username" id="ls_username" class="px vm xg1" value="学号/Email" onfocus="if(this.value == '学号/Email'){this.value = '';this.className = 'px vm';}" onblur="if(this.value == ''){this.value = '学号/Email';}" tabindex="901"></td>
-							<td class="fastlg_l"><label for="ls_cookietime"><input type="checkbox" name="cookietime" id="ls_cookietime" class="pc" value="2592000" tabindex="903">自动登录</label></td>
-						</tr>
-						<tr>
-							<td><label for="ls_password">密码</label></td>
-							<td><input type="password" name="password" id="ls_password" class="px vm" autocomplete="off" tabindex="902"></td>
-							<td class="fastlg_l"><button type="submit" class="pn vm" tabindex="904" style="width: 75px;"><em>登录</em></button></td>
-						</tr>
-					</tbody>
-				</table>
-				<input type="hidden" name="quickforward" value="yes">
-				<input type="hidden" name="handlekey" value="ls">
-			</div>
-		</form>
-		{% endif %}-->
+
 	</div>
 
 	<nav class="navbar navbar-default">
@@ -111,7 +79,7 @@
 			<div class="navbar-collapse collapse">
 
 				<ul class="nav navbar-nav">
-					<li><a href="index.html">Home</a></li>
+					<li><a href="/BookAssitantSystem/bookSearch">Home</a></li>
 					<li><a href="blog.html">新书速递</a></li>
 					<li class="active"><a href="about.html">About</a></li>
 				</ul>
@@ -129,29 +97,32 @@
 
 			<center>
 				<form action="/BookAssitantSystem/login/check" class="loginNew" id="loginFormModel">
-					<div id="tipsMessageLogin">
+					<div class="tipsMessageLogin">
 						<span style="font-size: 30px;font-family: 'Courier New', Courier, monospace">登录</span><br>
-						<span id="errorMsg" style="color: red">请输入正确用户名与密码</span>
-					</div><br>
+						<span id="errorMsg" style="color: red">{{errorMsg}}</span>
+					</div>
+					<br>
 					<hr>
-					<div id="usernameDiv">
+					<div class="usernameDiv">
 						<div class="errorMsg"><span style="color: red">请输入与学校图书馆绑定的账号，如：162400xx</span></div>
-						<span>用户名:</span><input name="userName" type="text"><br>
+						<span>用户名:</span>
+						<input name="userName" type="text" v-model="userName"><br>
 					</div>
 					<hr>
-					<div id="passwordDiv">
+					<div class="passwordDiv">
 						<div class="errorMsg"><span style="color: red">图书馆默认密码为出生日期，如：19970x0x</span></div>
-						<span>密码:</span><input name="password" type="password" /><br>
+						<span>密码:</span>
+						<input name="password" type="password" v-model="password" /><br>
 					</div>
 					<hr>
-					<div id="verificationCodeDiv">
+					<div class="verificationCodeDiv">
 						<div class="errorMsg"><span style="color: red">请回答语音验证码中提到的问题~</span></div>
 						<span>语音验证码:</span>
-						<input type="text" name="verificationCode"><br/>
+						<input type="text" name="verificationCode" v-model="verificationCode"><br/>
 						<audio src="http://localhost:8088/interface/getAudio?content=${qustionContent}" controls="controls">sad</audio> <br>
-					</div>				
+					</div>			
 					<hr>
-					<button type="submit">登录</button>
+					<button type="submit" onclick="return false;" v-on:click="getLoginCheck()">登录</button>
 					<input name="token" type="hidden" v-bind:value="getToken()">
 				</form>
 			</center>
@@ -191,6 +162,8 @@
 </html>
 
 
-<script src="/BookAssitantSystem/resources/assert/js/loginRender.js">
-	
+<script src="/BookAssitantSystem/resources/assert/js/loginRender.js"></script>
+<script>
+	loginFormModel.userName = '${userName}';
+	loginFormModel.password = '${password}';
 </script>

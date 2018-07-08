@@ -52,5 +52,7 @@ public interface MybatisUserMapper {
 	 * @param userName
 	 * @return
 	 */
-	public int updateUsersByEmailAndNickName(@Param("email") String email,@Param("nickName") String nickName,@Param("userName") String userName);
+	public int updateUsersByEmailAndNickName(@Param("email") String email,@Param("nickName") String nickName,@Param("userName") String userName) throws Exception;
+
+	public void updateUserEmail(@Param("email") String email,@Param("userName") String userName) throws Exception;
 }

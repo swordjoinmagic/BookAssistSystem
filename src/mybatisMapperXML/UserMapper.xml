@@ -24,8 +24,12 @@
 	
 	<!-- 用于更新用户 -->
 	<update id="updateUsersByEmailAndNickName">
-		update users set nickName=#{nickName},email=#{email}
-		where userName=#{userName}
+		update users set nickName='#{nickName}',email='#{email}'
+		where userName='#{userName}'
+	</update>
+	
+	<update id="updateUserEmail">
+		update users set email=#{email} where userName=#{userName}
 	</update>
 </mapper>
  

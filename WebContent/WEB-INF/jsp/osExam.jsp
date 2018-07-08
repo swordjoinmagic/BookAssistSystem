@@ -18,10 +18,10 @@
 <table border="1" class="a">
     <tr>
         <td></td>
-        <td>Max</td>
-        <td>Allocation</td>
-        <td>Need</td>
-        <td>Available</td>
+        <td>Max 最大需求矩阵</td>
+        <td>Allocation 已分配矩阵</td>
+        <td>Need 需求矩阵</td>
+        <td>Available 可用资源</td>
     </tr>
     <tr>
         <td>进程\资源情况</td>
@@ -30,11 +30,16 @@
         <td>A&nbsp;&nbsp; &nbsp; B&nbsp; &nbsp; &nbsp; C</td>
         <td>A&nbsp;&nbsp; &nbsp; B&nbsp; &nbsp; &nbsp; C</td>
     </tr>
-    <tr>
-        <td>进程x</td>
-        <td>5&nbsp;&nbsp; &nbsp; 4&nbsp; &nbsp; &nbsp; 2</td>
-        <td>5&nbsp;&nbsp; &nbsp; 4&nbsp; &nbsp; &nbsp; 2</td>
-        <td>5&nbsp;&nbsp; &nbsp; 4&nbsp; &nbsp; &nbsp; 2</td>
-        <td>5&nbsp;&nbsp; &nbsp; 4&nbsp; &nbsp; &nbsp; 2</td>
-    </tr>
+    
+	<c:forEach begin="0" end="${n-1}" var="i">
+	    <tr>
+	        <td>进程${i}</td> 
+	        <td>${max[i][0]}&nbsp;&nbsp; &nbsp; ${max[i][1]}&nbsp; &nbsp; &nbsp; ${max[i][2]}</td>
+	        <td>${allocation[i][0]}&nbsp;&nbsp; &nbsp; ${allocation[i][1]}&nbsp; &nbsp; &nbsp; ${allocation[i][2]}</td>
+	       	<td>${need[i][0]}&nbsp;&nbsp; &nbsp; ${need[i][1]}&nbsp; &nbsp; &nbsp; ${need[i][2]}</td>
+	       	<c:if test="${i==0}">
+	       		<td>${available[0]}&nbsp;&nbsp; &nbsp; ${available[1]}&nbsp; &nbsp; &nbsp; ${available[2]}</td>
+	       	</c:if>
+   		</tr>
+	</c:forEach>
 </table>
