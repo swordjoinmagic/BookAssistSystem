@@ -31,4 +31,6 @@ public interface MybatisCommentMapper {
 	 * @param fromUserID
 	 */
 	public void insertComment(@Param("fromISBN")String fromISBN,@Param("fromUserID")String fromUserID,@Param("comment")String comment);
+
+	public int findCommentsTotalWithISBN(@Param("fromISBN")String fromISBN);
 }

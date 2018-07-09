@@ -311,14 +311,14 @@
 						<form action="" method="post" id="commentform" class="">
 							<div class="form-group">
 								<label for="inputComment">Comment</label>
-								<textarea class="form-control" rows="6"></textarea>
+								<textarea class="form-control" rows="6" name="comment" v-model="comment"></textarea>
 							</div>
 							<div class="row">
 								<div class="col-md-8">
 
 								</div>
 								<div class="col-md-4 text-right">
-  									<button type="submit" class="btn btn-action">Submit</button>
+									<button type="submit" class="btn btn-action" onclick="return false;" v-on:click="postAComment()">Submit</button>
 								</div>
 						</form>
 					</div> <!-- /respond -->

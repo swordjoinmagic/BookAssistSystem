@@ -2,9 +2,13 @@ package com.BookSystem.controller;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.apache.ibatis.jdbc.Null;
 import org.apache.ibatis.session.SqlSession;
 import org.bson.Document;
+import org.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -39,8 +43,19 @@ public class InsertController {
 	 * @return
 	 */
 	@RequestMapping(path="/comments")
-	public ModelAndView insertComments(@RequestParam("ISBN")String ISBN,@RequestParam("fromUserID")String fromUserID,@RequestParam("comment")String comment) {
+	public ModelAndView insertComments(HttpServletRequest request,@RequestParam("ISBN")String ISBN,@RequestParam("comment")String comment) {
 		ModelAndView view = new ModelAndView();
+		
+		HttpSession httpSession = request.getSession();
+		
+		String fromUserID = (String) httpSession.getAttribute("userName");
+		
+		if(fromUserID==null) {
+			JSONObject jsonObject = new JSONObject();
+			view.addObject("stauts",false);
+			view.addObject("errorMsg","你还没有登录");
+			return view;
+		}
 		
 		// 构造Mybatis映射器
 		SqlSession session = MybatisManager.getSqlsessionfactory().openSession();
@@ -48,10 +63,13 @@ public class InsertController {
 		
 		commentMapper.insertComment(ISBN, fromUserID, comment);
 		session.commit();
+		
+		int totalCount = commentMapper.findCommentsTotalWithISBN(ISBN);
 				
 		session.close();
 		view.addObject("status",true);
 		view.addObject("errorMsg",null);
+		view.addObject("totalCount",totalCount);
 		
 		view.setView(new MappingJackson2JsonView());
 		return view;

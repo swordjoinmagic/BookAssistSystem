@@ -71,6 +71,19 @@ var dividePageComments = new Vue({
     }
 });
 
+var respondModel = new Vue({
+    el:'#commentform',
+    data:{
+        comment : ""
+    },
+    methods:{
+        // 发表一篇评论，同时跳转到评论的最后一条信息去
+        postAComment:function(){
+            insertComment(this.comment);
+        }
+    }
+});
+
 // 用于更新评论的Ajax,输入两个参数，一个Page，表示页数，一个ISBN，表示要查看哪一本书的评论
 function updateCommentsResultWithISBN(page,ISBN){
     $.ajax({
@@ -90,6 +103,20 @@ function updateCommentsResultWithISBN(page,ISBN){
             // 更新分页模型
             dividePageComments.ISBN = ISBN;
             dividePageComments.page = page;
+        }
+    });
+}
+
+function insertComment(comment){
+    $.ajax({
+        url:'http://localhost:8080/BookAssitantSystem/insert/comments?ISBN='+commentsResult.ISBN+"&comment="+encodeURI(comment),
+        dataType:'jsonp',
+        type:'GET',
+        success:function(data){
+            var totalCount = data.totalCount;
+            totalPage = parseInt(totalCount/5);
+            console.log("总评论数是:"+totalPage);
+            updateCommentsResultWithISBN(totalPage,commentsResult.ISBN);
         }
     });
 }

@@ -21,6 +21,8 @@
 	<!-- 引入vue -->
 	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 
+	<script src="../js/myEncryption.js"></script>
+	<script src="../js/drawFiveStar.js"></script>
 </head>
 <style>
 	.margintop {
@@ -45,7 +47,6 @@
 			<!--搜索条-->
 			<div class="searchBar">
 				<form action="/bookSystem/searchwithpymongo" method="GET">
-					{% csrf_token %}
 					<select name="find_code" id="find_code">
 						<option value="AllKeyButNotCatalog" selected="">所有字段(除目录)</option>
 						<option value="AllKey">所有字段</option>
@@ -132,19 +133,20 @@
 
 			<div class="row topspace">
 
-				<!-- Sidebar -->
-				<aside class="col-sm-4 sidebar sidebar-right">
+				<div id="specialKeysAside">
+					<!-- Sidebar -->
+					<aside class="col-sm-4 sidebar sidebar-right">
 
-					<ul class="nav text-right nav-side">
-						<li id="basesetup" v-bind:class="{'active':getActived()}" v-on:click="clickThis()">
-							<a>Unity(目录)</a>
-						</li>
-						<li id="attention" v-bind:class="{'active':getActived()}" v-on:click="clickThis()">
-							<a>Shader(目录)</a>
-						</li>
-					</ul>
+						<ul class="nav text-right nav-side">
+							<template v-for="key in specialKeys">
+								<li>
+									<a v-on:click="searchNewBook(key.specialKey,key.keyType)">{{key.specialKey}}({{getKeyType(key.keyType)}})</a>
+								</li>
+							</template>
+						</ul>
 
-				</aside>
+					</aside>
+				</div>
 				<!-- /Sidebar -->
 
 
@@ -169,8 +171,8 @@
 												<template v-for="i in 5">
 													<canvas v-bind:id="'canvas'+book.ISBN+'with'+i" height="17px" width="17px"></canvas>
 												</template>
-												<span class="ratingScore">评分：{{ book.ratingAverage }}</span>
-												<span class="ratingScore">评分人数:{{ book.ratingNumberRaters }}</span>
+												<span class="ratingScore">评分：{{ getRating(book.ratingAverage) }}</span>
+												<span class="ratingScore">评分人数:{{ getRating(book.ratingNumberRaters) }}</span>
 											</legend>
 
 										</div>
@@ -223,9 +225,74 @@
 						<template v-else>
 							<p>暂无图书</p>
 						</template>
+
 					</template>
 
 				</article>
+
+
+				<!--分页标签-->
+				<div class="dividePage" id="dividePage2">
+					<legend>
+						<center class="">
+							<ul class="pagination">
+								<template v-if="page <= 0">
+									<li>
+										<a href="#">«</a>
+									</li>
+								</template>
+								<template v-else>
+									<li>
+										<a href="#" v-on:click="gotoPage(page-1)">«</a>
+									</li>
+								</template>
+
+								<template v-if="page-5>0">
+									<li>
+										<a href="#" v-on:click="gotoPage(0)">0</a>
+									</li>
+									<li>
+										<a>.......</a>
+									</li>
+								</template>
+
+								<template v-for="p in range">
+									<template v-if="p == page">
+										<li class="active">
+											<a href="#" >{{ p }}</a>
+										</li>
+									</template>
+									<template v-else>
+										<li>
+											<a href="#"  v-on:click="gotoPage(p)">{{ p }}</a>
+										</li>
+									</template>
+								</template>
+
+								<template v-if="page+5 < totalPage">
+									<li>
+										<a>.......</a>
+									</li>
+								</template>
+
+								<li>
+									<a href="#" v-on:click="gotoPage(totalPage)">{{totalPage}}</a>
+								</li>
+
+								<template v-if="page>=totalPage">
+									<li>
+										<a href="#">»</a>
+									</li>
+								</template>
+								<template v-else>
+									<li>
+										<a href="#" v-on:click="gotoPage(page+1)">»</a>
+									</li>
+								</template>
+							</ul>
+						</center>
+					</legend>
+				</div>
 			</div>
 		</div>
 		<!-- /container -->

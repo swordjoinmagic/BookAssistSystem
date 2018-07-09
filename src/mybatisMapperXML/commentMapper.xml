@@ -13,4 +13,9 @@
 	<insert id="insertComment">
 		insert into comments(comment,fromISBN,fromUserID) values(#{comment}, #{fromISBN}, #{fromUserID})
 	</insert>
+	
+	<!-- 获得一本书的总评论数 -->
+	<select id="findCommentsTotalWithISBN" resultType="int">
+		select count(*) from comments where fromISBN=#{fromISBN}
+	</select>
 </mapper>

@@ -188,8 +188,8 @@
 											<template v-for="i in 5">
 												<canvas v-bind:id="'canvas'+book.ISBN+'with'+i" height="17px" width="17px"></canvas>
 											</template>
-											<span class="ratingScore">评分：{{ book.ratingAverage }}</span>
-											<span class="ratingScore">评分人数:{{ book.ratingNumberRaters }}</span>
+											<span class="ratingScore">评分：{{ getRating(book.ratingAverage) }}</span>
+											<span class="ratingScore">评分人数:{{ getRating(book.ratingNumberRaters) }}</span>
 										</legend>
 
 									</div>

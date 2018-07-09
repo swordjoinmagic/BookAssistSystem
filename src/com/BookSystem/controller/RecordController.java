@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
+import org.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -16,9 +17,10 @@ import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
 import com.BookSystem.DataBaseManagement.MybatisManager;
 import com.BookSystem.MybatisMapper.MybatisRecordMapper;
+import com.BookSystem.MybatisMapper.MybatisSpecialKeyMapper;
 import com.BookSystem.javaBean.FreeNotice;
 import com.BookSystem.javaBean.HistoryRecord;
-import com.fasterxml.jackson.annotation.JsonCreator.Mode;
+import com.BookSystem.javaBean.SpecialKey;
 
 /**
  * 返回各式各样的记录的控制器
@@ -82,5 +84,38 @@ public class RecordController {
 		view.addObject("userName",username);
 		
 		return view;
+	}
+
+	@RequestMapping(path="getSpecialKeys")
+	public ModelAndView getSpecialKeys(HttpServletRequest request) {
+		
+		// 获得用户ID
+		ModelAndView view = new ModelAndView();
+		view.setView(new MappingJackson2JsonView());
+		
+		HttpSession session = request.getSession();
+		
+		String username = (String) session.getAttribute("userName");
+		
+		if(username==null) {
+			JSONObject jsonObject = new JSONObject();
+			view.addObject("stauts",false);
+			view.addObject("errorMsg","你还没有登录");
+			return view;
+		}
+		
+		SqlSession sqlSession = MybatisManager.getSqlsessionfactory().openSession();
+		
+		MybatisSpecialKeyMapper specialKeyMapper = sqlSession.getMapper(MybatisSpecialKeyMapper.class);
+		
+		List<SpecialKey>specialKeys = specialKeyMapper.findSpecialKeysWithUserID(username);
+		
+		sqlSession.close();
+		
+		view.addObject("status",true);
+		view.addObject("errorMsg","");
+		view.addObject("specialKeys",specialKeys);
+		return view;
+		
 	}
 }

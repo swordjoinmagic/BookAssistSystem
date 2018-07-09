@@ -1,5 +1,43 @@
+specialKeysAsideModel = new Vue({
+    el:'#specialKeysAside',
+    data:{
+        specialKeys:[],
+        searchType:"",
+        queryContent:""
+    },
+    methods:{
+        // key:要在新书集中搜索的内容，keyType：搜索模式：如对书名进行搜索，对目录进行搜索等等
+        searchNewBook:function(key,keyType){
+            this.searchType = keyType;
+            this.queryContent = key;
+            updateSearchResult(0,0,keyType,key);
+        },
+        getKeyType:function(keyType){
+            if(keyType=="AllKey"){
+                return "所有字段";
+            }else if(keyType=="CatalogKey"){
+                return "目录";
+            }else if(keyType=="BookNameKey"){
+                return "题名关键词";
+            }else if(keyType=="BookAuthorKey"){
+                return "著者";
+            }else if(keyType=="BookPublisherKey"){
+                return "出版社";
+            }else if(keyType=="ISBNKey"){
+                return "ISBN";
+            }else if(keyType=="IndexKey"){
+                return "索书号";
+            }else if(keyType=="SystemNumberKey"){
+                return "系统号";
+            }else{
+                return "所有字段(除目录)";
+            }
+        }
+    }
+});
 
-newBookSearchResultModel = new Vue({
+
+searchResult = new Vue({
     el:'#newBookSearchResult',
     data:{
         data:{
@@ -47,17 +85,38 @@ newBookSearchResultModel = new Vue({
 
             $("#bookCollectionStatus"+book.ISBN).slideUp("slow");
 
+         },
+         getRating:function(rating){
+             if(rating == -1 || rating==0){
+                 return "暂无";
+             }
+             return rating;
          }
     }
 });
-
+// 分页模型
+var dividePage2 = new Vue({
+    el:'#dividePage2',
+    data:{
+        totalCount:0,
+        page:0,
+        totalPage:0,
+        range:[]
+    },
+    methods:{
+        gotoPage:function(page){
+           updateSearchResult(page,0,specialKeysAsideModel.searchType,encodeURI(specialKeysAsideModel.queryContent));
+        }
+    }
+});
 
 // 用于更新页面上的搜查结果的ajax
 function updateSearchResult(page,sortType,searchType,queryContent){
     searchResult.isLoading = true;
     $.ajax({
-        url:'/BookAssitantSystem/search?page='+page+'&sortType='+sortType+'&searchType='+searchType+'&queryContent='+queryContent+'&token='+getEncryptionCode(),
+        url:'http://localhost:8080/BookAssitantSystem/search?page='+page+'&sortType='+sortType+'&searchType='+searchType+'&queryContent='+queryContent+'&token='+getEncryptionCode()+'&isNewBook=true',
         type:'GET',
+        dataType: "jsonp",
         success:function(data){
             searchResult.isLoading = false;
             searchResult.data = data;
@@ -80,10 +139,6 @@ function updateSearchResult(page,sortType,searchType,queryContent){
                 range.push(i);
             }
 
-            dividePage1.range = range;
-            dividePage1.page = page;
-            dividePage1.totalPage = totalPage;
-            dividePage1.totalCount = totalCount;
             dividePage2.range = range;
             dividePage2.page = page;
             dividePage2.totalPage = totalPage;
@@ -97,3 +152,26 @@ function updateSearchResult(page,sortType,searchType,queryContent){
         }
     });
 }
+
+
+// 整个页面的初始化，获得目标用户的所有新书速递字段
+function init(userID){
+    $.ajax({
+        url:'http://localhost:8080/BookAssitantSystem/record/getSpecialKeys',
+        type:'GET',
+        dataType: "jsonp",
+        success:function(data){
+            specialKeysAsideModel.specialKeys = data.specialKeys;
+        }
+    });
+}
+
+init();
+setTimeout(() => {
+    if(specialKeysAsideModel.specialKeys.length>0){
+        var specialKey = specialKeysAsideModel.specialKeys[0];
+        specialKeysAsideModel.searchType = specialKey.keyType;
+        specialKeysAsideModel.queryContent = specialKey.key;
+        updateSearchResult(0,0,specialKey.keyType,specialKey.key);
+    }    
+}, 150);

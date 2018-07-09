@@ -51,6 +51,12 @@ var searchResult = new Vue({
 
             $("#bookCollectionStatus"+book.ISBN).slideUp("slow");
 
+         },
+         getRating:function(rating){
+             if(rating == -1 || rating==0){
+                 return "暂无";
+             }
+             return rating;
          }
      }
 }); 
