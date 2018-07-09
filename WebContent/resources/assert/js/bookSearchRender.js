@@ -29,7 +29,6 @@ var searchResult = new Vue({
 
             $.ajax({
                 url:'http://localhost:8088/interface/getBookCollectionStatus?systemNumber='+systemNumber,
-                // dataType:'jsonp',
                 type:'GET',
                 success:function(data){
                     console.log("请求馆藏信息成功，他的数据为:");
@@ -111,7 +110,6 @@ function updateSearchResult(page,sortType,searchType,queryContent){
     searchResult.isLoading = true;
     $.ajax({
         url:'/BookAssitantSystem/search?page='+page+'&sortType='+sortType+'&searchType='+searchType+'&queryContent='+queryContent+'&token='+getEncryptionCode(),
-        // dataType:'jsonp',
         type:'GET',
         success:function(data){
             searchResult.isLoading = false;
@@ -161,7 +159,6 @@ function getBookCollection(systemNumber,book){
 
     $.ajax({
         url:'http://localhost:8088/interface/getBookCollectionStatus?systemNumber='+systemNumber,
-        // dataType:'jsonp',
         type:'GET',
         success:function(data){
             console.log("请求馆藏信息成功，他的数据为:");

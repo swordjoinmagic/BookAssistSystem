@@ -6,7 +6,7 @@
 <head>
 	<meta charset="utf-8">
 
-	<title>Blog post | Initio - Free, multipurpose html5 template by GetTemplate</title>
+	<title>基本设置</title>
 
 	<link rel="shortcut icon" href="assets/images/gt_favicon.png">
 
@@ -110,7 +110,7 @@
 
 				<ul class="nav navbar-nav">
 					<li><a href="/BookAssitantSystem/bookSearch">Home</a></li>
-					<li><a href="blog.html">新书速递</a></li>
+					<li><a href="/BookAssitantSystem/newBook">新书速递</a></li>
 					<li class="active"><a href="about.html">About</a></li>
 				</ul>
 

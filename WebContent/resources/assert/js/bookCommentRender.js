@@ -87,8 +87,7 @@ var respondModel = new Vue({
 // 用于更新评论的Ajax,输入两个参数，一个Page，表示页数，一个ISBN，表示要查看哪一本书的评论
 function updateCommentsResultWithISBN(page,ISBN){
     $.ajax({
-        url:'http://localhost:8080/BookAssitantSystem/book/comments/'+ISBN+'/page/'+page,
-        dataType:'jsonp',
+        url:'/BookAssitantSystem/book/comments/'+ISBN+'/page/'+page+"?token="+getEncryptionCode(),
         type:'GET',
         success:function(data){
 
@@ -109,8 +108,7 @@ function updateCommentsResultWithISBN(page,ISBN){
 
 function insertComment(comment){
     $.ajax({
-        url:'http://localhost:8080/BookAssitantSystem/insert/comments?ISBN='+commentsResult.ISBN+"&comment="+encodeURI(comment),
-        dataType:'jsonp',
+        url:'/BookAssitantSystem/insert/comments?ISBN='+commentsResult.ISBN+"&comment="+encodeURI(comment)+"&token="+getEncryptionCode(),
         type:'GET',
         success:function(data){
             var totalCount = data.totalCount;

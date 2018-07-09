@@ -66,14 +66,14 @@ searchResult = new Vue({
                 // dataType:'jsonp',
                 type:'GET',
                 success:function(data){
-                    console.log("请求馆藏信息成功，他的数据为:");
-                    console.log(data.book);
-                    console.log("这本书是:");
-                    console.log(book);
+                    // console.log("请求馆藏信息成功，他的数据为:");
+                    // console.log(data.book);
+                    // console.log("这本书是:");
+                    // console.log(book);
                     book.remainDataXiLi.remain = data.book[0].remain;
                     book.remainDataLiuXian.remain = data.book[1].remain;
-                    console.log("这本书值改变之后");
-                    console.log(book);
+                    // console.log("这本书值改变之后");
+                    // console.log(book);
                     
                 }
             });
@@ -114,9 +114,9 @@ var dividePage2 = new Vue({
 function updateSearchResult(page,sortType,searchType,queryContent){
     searchResult.isLoading = true;
     $.ajax({
-        url:'http://localhost:8080/BookAssitantSystem/search?page='+page+'&sortType='+sortType+'&searchType='+searchType+'&queryContent='+queryContent+'&token='+getEncryptionCode()+'&isNewBook=true',
+        url:'/BookAssitantSystem/search?page='+page+'&sortType='+sortType+'&searchType='+searchType+'&queryContent='+queryContent+'&token='+getEncryptionCode()+'&isNewBook=true',
         type:'GET',
-        dataType: "jsonp",
+        // dataType: "jsonp",
         success:function(data){
             searchResult.isLoading = false;
             searchResult.data = data;
@@ -157,9 +157,9 @@ function updateSearchResult(page,sortType,searchType,queryContent){
 // 整个页面的初始化，获得目标用户的所有新书速递字段
 function init(userID){
     $.ajax({
-        url:'http://localhost:8080/BookAssitantSystem/record/getSpecialKeys',
+        url:'/BookAssitantSystem/record/getSpecialKeys',
         type:'GET',
-        dataType: "jsonp",
+        // dataType: "jsonp",
         success:function(data){
             specialKeysAsideModel.specialKeys = data.specialKeys;
         }

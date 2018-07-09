@@ -18,6 +18,7 @@ import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
 import com.BookSystem.DataBaseManagement.MongoDBCommentDataBase;
 import com.BookSystem.DataBaseManagement.MybatisManager;
+import com.BookSystem.Decryption.MyDecryptionUtil;
 import com.BookSystem.MybatisMapper.MybatisCommentMapper;
 import com.BookSystem.javaBean.Comment;
 import com.mongodb.client.FindIterable;
@@ -83,8 +84,19 @@ public class BookController {
 	 * @return
 	 */
 	@RequestMapping(path="/comments/{ISBN}/page/{page}")
-	public ModelAndView getCommentsFromISBN(@PathVariable("ISBN")String ISBN,@PathVariable(name="page") int page) {
+	public ModelAndView getCommentsFromISBN(
+			@PathVariable("ISBN")String ISBN,
+			@PathVariable(name="page") int page,
+			@RequestParam(name="token",required=false,defaultValue="") String token) {
 		ModelAndView view = new ModelAndView();
+		view.setView(new MappingJackson2JsonView());
+
+		// 判断token,如果不一致，直接返回
+		if(!MyDecryptionUtil.isConsistent(token)) {
+			view.addObject("status",false);
+			view.addObject("errorMsg","token不一致");
+			return view;
+		}
 		
 		SqlSession session = null;
 		try {
@@ -96,7 +108,6 @@ public class BookController {
 			view.addObject("page",page);
 			view.addObject("ISBN",ISBN);
 			
-			view.setView(new MappingJackson2JsonView());
 		}finally {
 			if(session!=null)
 				session.close();

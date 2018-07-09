@@ -6,7 +6,7 @@
 <head>
 	<meta charset="utf-8">
 
-	<title>Blog post | Initio - Free, multipurpose html5 template by GetTemplate</title>
+	<title>${bookName}</title>
 
 	<!-- Bootstrap -->
 	<link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.no-icons.min.css" rel="stylesheet">
@@ -104,7 +104,7 @@
 
 				<ul class="nav navbar-nav">
 					<li><a href="/BookAssitantSystem/bookSearch">Home</a></li>
-					<li><a href="blog.html">新书速递</a></li>
+					<li><a href="/BookAssitantSystem/newBook">新书速递</a></li>
 					<li class="active"><a href="about.html">About</a></li>
 				</ul>
 
@@ -201,14 +201,6 @@
 		<div class="row">
 			<div class="col-sm-8 col-sm-offset-2">
 				<legend><span class="bookLabel">同类型书籍推荐  · · · · · ·</span></legend>
-				<div class="bookRecommand">
-					<div class="wordWithImg">
-						<div class="str">
-							asdasd
-						</div>
-						<img src="assets/images/avatar_man.png" height="150px" width="150px" />
-					</div>
-				</div>
 				<div class="bookRecommand">
 					<div class="wordWithImg">
 						<div class="str">
@@ -318,7 +310,7 @@
 
 								</div>
 								<div class="col-md-4 text-right">
-									<button type="submit" class="btn btn-action" onclick="return false;" v-on:click="postAComment()">Submit</button>
+									<button type="submit" class="btn btn-action" onclick="return false;" onsubmit="return false;" v-on:click="postAComment()">Submit</button>
 								</div>
 						</form>
 					</div> <!-- /respond -->

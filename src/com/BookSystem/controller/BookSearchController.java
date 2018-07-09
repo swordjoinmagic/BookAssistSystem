@@ -251,4 +251,10 @@ public class BookSearchController {
 		return view;
 	}
 
+	@RequestMapping("/newBook")
+	public ModelAndView newBookSearch() {
+		ModelAndView view = new ModelAndView();
+		view.setViewName("newBook");
+		return view;
+	}
 }

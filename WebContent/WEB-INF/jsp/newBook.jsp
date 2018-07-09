@@ -1,10 +1,12 @@
+<%@ page language="java" contentType="text/html; charset=utf-8"
+    pageEncoding="utf-8"%>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
 	<meta charset="utf-8">
 
-	<title>Blog post | Initio - Free, multipurpose html5 template by GetTemplate</title>
+	<title>新书速递</title>
 
 	<link rel="shortcut icon" href="assets/images/gt_favicon.png">
 
@@ -13,16 +15,16 @@
 	<!-- Icon font -->
 	<link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
 	<!-- Custom styles -->
-	<link rel="stylesheet" href="../css/styles.css">
-	<link rel="stylesheet" href="../css/bookSystem.css" />
+	<link rel="stylesheet" href="/BookAssitantSystem/resources/assert/css/styles.css">
+	<link rel="stylesheet" href="/BookAssitantSystem/resources/assert/css/bookSystem.css" />
 
 	<script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.0.js"></script>
 
 	<!-- 引入vue -->
 	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 
-	<script src="../js/myEncryption.js"></script>
-	<script src="../js/drawFiveStar.js"></script>
+	<script src="/BookAssitantSystem/resources/assert/js/myEncryption.js"></script>
+	<script src="/BookAssitantSystem/resources/assert/js/drawFiveStar.js"></script>
 </head>
 <style>
 	.margintop {
@@ -133,7 +135,7 @@
 							<a href="/BookAssitantSystem/bookSearch">Home</a>
 						</li>
 						<li>
-							<a href="blog.html">新书速递</a>
+							<a href="/BookAssitantSystem/newBook">新书速递</a>
 						</li>
 						<li class="active">
 							<a href="about.html">About</a>
@@ -353,4 +355,4 @@
 
 </html>
 
-<script src="../js/newbookRender.js"></script>
+<script src="/BookAssitantSystem/resources/assert/js/newbookRender.js"></script>
