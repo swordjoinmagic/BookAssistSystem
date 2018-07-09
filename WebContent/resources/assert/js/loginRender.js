@@ -15,7 +15,7 @@ var loginFormModel = new Vue({
         getLoginCheck:function(){
             loginFormModel.errorMsg = '正在提交中~';
             $.ajax({
-                url:'http://localhost:8080/BookAssitantSystem/login/check?userName='+this.userName+'&password='+this.password+'&verificationCode='+this.verificationCode+'&token='+this.token,
+                url:'/BookAssitantSystem/login/check?userName='+this.userName+'&password='+this.password+'&verificationCode='+this.verificationCode+'&token='+this.token,
                 type:'GET',
                 success:function(data){
 

@@ -14,7 +14,7 @@
  function getBookCollection(systemNumber){
 
     $.ajax({
-        url:'http://localhost:8088/interface/getBookCollectionStatus?systemNumber='+systemNumber,
+        url:'http://localhost/interface/getBookCollectionStatus?systemNumber='+systemNumber,
         type:'GET',
         success:function(data,book){
             console.log("请求馆藏信息成功，他的数据为:");

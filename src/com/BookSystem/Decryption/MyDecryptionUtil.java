@@ -2,6 +2,7 @@ package com.BookSystem.Decryption;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.log;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -91,6 +92,16 @@ public class MyDecryptionUtil {
 			return true;
 		}
 		return false;
+	}
+	
+	public static String getDecodeString(String encoderString) throws UnsupportedEncodingException {
+		// 获得用base64解密得到的bytes数组
+		byte[] bytes = Base64Decoder.decode(encoderString.getBytes(), 0, encoderString.length());
+		
+		// 获得解密得到的字符串
+		String string = new String(bytes,"utf-8");
+		
+		return string;
 	}
 	
 	public static void main(String[] args) {

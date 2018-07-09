@@ -62,7 +62,7 @@ searchResult = new Vue({
             $("#bookCollectionStatus"+book.ISBN).slideDown("slow");
 
             $.ajax({
-                url:'http://localhost:8088/interface/getBookCollectionStatus?systemNumber='+systemNumber,
+                url:'http://39.108.176.18/interface/getBookCollectionStatus?systemNumber='+systemNumber,
                 // dataType:'jsonp',
                 type:'GET',
                 success:function(data){

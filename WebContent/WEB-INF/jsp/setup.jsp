@@ -165,7 +165,7 @@
 							<option value="${isAutoBorrow}">开启</option>
 						</c:if>
 					</select>
-					<span style="color:red;">errorMsg</span>
+					<span style="color:red;"></span>
 				</div>
 				<div class="newBookDiv">
 					<span>是否开启新书速递功能</span>
@@ -179,7 +179,7 @@
 							<option value="${isAutoNewBook}">开启</option>
 						</c:if>	
 					</select>
-					<span style="color:red;">errorMsg</span>
+					<span style="color:red;"></span>
 					
 				</div>
 

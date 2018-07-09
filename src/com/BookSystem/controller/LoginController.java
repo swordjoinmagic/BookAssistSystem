@@ -1,11 +1,15 @@
 package com.BookSystem.controller;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.Charset;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.session.SqlSession;
@@ -19,6 +23,8 @@ import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
 import com.BookSystem.DataBaseManagement.MybatisManager;
 import com.BookSystem.Decryption.MyDecryptionUtil;
+import com.BookSystem.ExcScript.ExecuteScript;
+import com.BookSystem.HttpUtil.GoogleSpider;
 import com.BookSystem.HttpUtil.HttpClientUtil;
 import com.BookSystem.MybatisMapper.MybatisQuestionMapper;
 import com.BookSystem.javaBean.Question;
@@ -57,8 +63,11 @@ public class LoginController {
 		
 		String encodeQuestion = new BASE64Encoder().encode(question.getQuestion().getBytes("UTF-8"));
 		
+		String Tk = ExecuteScript.getExecuteScript().getTK(question.getQuestion());
+		
 		encodeQuestion = URLEncoder.encode(encodeQuestion);
 		
+		view.addObject("TK",Tk);
 		view.addObject("qustionContent",encodeQuestion);
 		view.addObject("userName",username);
 		view.addObject("password",password);
@@ -105,7 +114,7 @@ public class LoginController {
 		}
 		
 		// ToDO，这一段使用python开放的接口，判断是否可以登录学校图书馆
-		String url = "http://localhost:8088/interface/login?userName=%s&password=%s";
+		String url = "http://39.108.176.18/interface/login?userName=%s&password=%s";
 		
 		
 		JSONObject result = HttpClientUtil.get(String.format(url, userName,password));
@@ -153,4 +162,5 @@ public class LoginController {
 		
 		return view;
 	}
+	
 }

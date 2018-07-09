@@ -119,7 +119,7 @@
 						<div class="errorMsg"><span style="color: red">请回答语音验证码中提到的问题~</span></div>
 						<span>语音验证码:</span>
 						<input type="text" name="verificationCode" v-model="verificationCode"><br/>
-						<audio src="http://localhost:8088/interface/getAudio?content=${qustionContent}" controls="controls">sad</audio> <br>
+						<audio src="http://39.108.176.18/interface/getAudio?content=${qustionContent}&TK=${TK}" controls="controls">sad</audio> <br>
 					</div>			
 					<hr>
 					<button type="submit" onclick="return false;" v-on:click="getLoginCheck()">登录</button>

@@ -274,7 +274,7 @@
 					<!--词云部分-->
 					<div id="wordCloud" v-if="actived">
 						<center>
-							<img src="http://localhost:8088/interface/getWordCloud?ISBN=${ISBN}" height="300px" width="600px" />
+							<img src="http://39.108.176.18/interface/getWordCloud?ISBN=${ISBN}" height="300px" width="600px" />
 						</center>
 					</div>
 					 

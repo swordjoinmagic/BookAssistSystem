@@ -28,7 +28,7 @@ var searchResult = new Vue({
             $("#bookCollectionStatus"+book.ISBN).slideDown("slow");
 
             $.ajax({
-                url:'http://localhost:8088/interface/getBookCollectionStatus?systemNumber='+systemNumber,
+                url:'http://39.108.176.18/interface/getBookCollectionStatus?systemNumber='+systemNumber,
                 type:'GET',
                 success:function(data){
                     console.log("请求馆藏信息成功，他的数据为:");
@@ -158,7 +158,7 @@ function updateSearchResult(page,sortType,searchType,queryContent){
 function getBookCollection(systemNumber,book){
 
     $.ajax({
-        url:'http://localhost:8088/interface/getBookCollectionStatus?systemNumber='+systemNumber,
+        url:'http://39.108.176.18/interface/getBookCollectionStatus?systemNumber='+systemNumber,
         type:'GET',
         success:function(data){
             console.log("请求馆藏信息成功，他的数据为:");
