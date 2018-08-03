@@ -35,7 +35,7 @@ public class EmailManager {
 	}
 
 	// 发件人电子邮箱
-	private String from = "16240011@mail.szpt.edu.cn";
+	private String from = "保密";
 
 	// 指定发送邮件的主机为 localhost
 	private String host = "smtp.exmail.qq.com";
@@ -75,8 +75,8 @@ public class EmailManager {
 		// 设置邮件服务器
 		properties.setProperty("mail.smtp.host", host);
 		
-		properties.setProperty("mail.user", "16240011@mail.szpt.edu.cn");
-		properties.setProperty("mail.password", "Sz09043330");
+		properties.setProperty("mail.user", "保密");
+		properties.setProperty("mail.password", "保密");
 		
 		authenticator = new Authenticator() {
 			 @Override
